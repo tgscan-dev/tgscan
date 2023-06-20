@@ -1,0 +1,308 @@
+.container {
+    display: flex;
+    align-items: center;
+    justify-items: center;
+    justify-content: center;
+    height: 60vh;
+}
+
+.Polaris-Tabs__Tab--selected:focus .Polaris-Tabs__Title::before {
+    background: #000000 !important;
+}
+
+
+.Polaris-Tabs__Tab--selected .Polaris-Tabs__Title::before {
+    background: #000000 !important;
+}
+
+.Polaris-Tabs__Tab:active .Polaris-Tabs__Title::before {
+    background: #ccc !important;
+}
+
+.Polaris-Spinner svg {
+    animation: var(--p-keyframes-spin) var(--p-duration-500) linear infinite;
+    fill: #000000 !important;
+
+}
+
+
+body {
+    background-color: rgb(255, 255, 255) !important;
+}
+
+.search-box {
+    /*margin: 100px;*/
+    width: 600px;
+
+    /*display: flex;*/
+
+}
+
+.Polaris-Tabs__Tab:focus:not(:active) .Polaris-Tabs__Title::after {
+    box-shadow: 0 0 0 0.00rem var(--p-focused) !important;
+    outline: var(--p-border-width-1) solid transparent;
+}
+
+.highlight-body {
+    cursor: text;
+}
+
+.search-box > .img {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    align-content: center;
+}
+
+#avatar img {
+    height: 50px;
+    width: 50px;
+}
+
+.items .title {
+    font-size: 18px !important;
+    font-weight: 400;
+    line-height: var(--p-font-line-height-2) !important;
+}
+
+#PolarisComboboxTextField2 {
+    width: 560px;
+    height: 45px !important;
+}
+
+#PolarisComboboxTextField2 input {
+    width: 560px;
+    height: 45px !important;
+
+}
+
+.search-box > .img img {
+    width: 340px;
+    display: block;
+}
+
+.search-box > .input {
+    margin-top: 35px;
+}
+
+.items {
+    /*display: flex;*/
+}
+
+.items .head {
+    display: flex;
+    padding: 30px 30px 5px 30px;
+}
+
+.items .img img {
+    width: 130px;
+    height: 30px;
+    margin-top: 4px;
+    margin-right: 30px;
+}
+
+.items .results {
+    padding: 5px 30px 3px 170px;
+    width: 900px;
+}
+
+.items .results .tabs {
+    width: 800px !important;
+}
+
+.items .head .input > div {
+    width: 700px !important;
+}
+
+
+.tabs {
+    margin-left: 180px;
+}
+
+.results .resources {
+    margin-top: 25px;
+}
+
+.pagination {
+    margin-top: 15px;
+    margin-left: 20px;
+    margin-bottom: 30px;
+}
+
+.Polaris-TextField--focus > .Polaris-TextField__Input ~ .Polaris-TextField__Backdrop::after, .Polaris-TextField--focus > .Polaris-TextField__VerticalContent ~ .Polaris-TextField__Backdrop::after, .Polaris-TextField__Input:focus ~ .Polaris-TextField__Backdrop::after {
+    box-shadow: 0 0 0 0.00rem var(--p-focused) !important;
+    outline: var(--p-border-width-1) solid transparent;
+}
+
+.input .Polaris-TextField__Backdrop {
+    border-radius: 25px;
+}
+
+.input .Polaris-TextField {
+    height: 45px !important;
+}
+
+.foot {
+    position: fixed;
+    bottom: 0;
+    right: 20px;
+    /*height: 100%;*/
+    /*width: 100%;*/
+}
+
+.resource-item .icon img {
+    width: 20px !important;
+    margin-right: 3px;
+
+}
+
+.resource-item .title {
+    position: relative;
+    top: -3px;
+}
+
+.resource-item .tags {
+    margin: 5px 0;
+    cursor: text !important;
+}
+
+.resource-item .tags .icon {
+    width: 16px;
+    height: 16px;
+    margin-right: 5px;
+    margin-top: 3px;
+}
+
+/*.resource-item .tags .cnt {*/
+/*    font-size: 13px;*/
+/*    position: relative;*/
+/*    top: -3px;*/
+
+/*}*/
+.Polaris-Tabs__Wrapper {
+    border-bottom: 0 !important;
+}
+
+.Polaris-Divider {
+    border-block-start: var(--p-border-divider);
+}
+
+@media only screen and (max-width: 768px) {
+    .input .Polaris-TextField__Backdrop {
+        border-radius: 20px;
+    }
+
+    .input .Polaris-TextField {
+        height: 35px !important;
+    }
+
+    #PolarisComboboxTextField2 {
+        height: 35px !important;
+    }
+
+    #PolarisComboboxTextField2 input {
+        height: 35px !important;
+
+    }
+
+    .search-box > .img {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        align-content: center;
+    }
+
+    #avatar img {
+        height: 50px;
+        width: 50px;
+    }
+
+    .items .title {
+        font-size: 18px !important;
+        font-weight: 400;
+        line-height: var(--p-font-line-height-2) !important;
+    }
+
+    #PolarisComboboxTextField2 {
+        width: 300px;
+        height: 35px !important;
+    }
+
+    #PolarisComboboxTextField2 input {
+        width: 300px;
+        height: 35px !important;
+    }
+
+    .search-box > .img img {
+        width: 340px;
+        display: block;
+    }
+
+    .search-box > .input {
+        margin-top: 35px;
+    }
+
+    .search-box {
+        /*margin: 100px;*/
+        width: 350px;
+
+        /*display: flex;*/
+
+    }
+
+    .search-box > .img img {
+        width: 180px;
+        display: block;
+    }
+
+    .items .head {
+        display: flex;
+        flex-direction: column;
+        padding: 25px 30px 5px 30px;
+    }
+
+    .items .img img {
+        /*display: none;*/
+        display: block;
+        /*width: 90px;*/
+        height: 30px;
+        margin: 0 auto 20px;
+
+    }
+
+    .items .results {
+        padding: 5px 3px;
+        width: 100% !important;
+    }
+
+    .items .results .tabs {
+        width: 200px !important;
+    }
+
+    .items .head .input > div {
+        width: 360px !important;
+    }
+
+
+    .tabs {
+        margin-left: 10px !important;
+    }
+
+    .results .resources {
+        margin-top: 25px;
+    }
+
+    .pagination {
+        margin-top: 15px;
+        margin-left: 20px;
+        margin-bottom: 30px;
+    }
+
+}
+
+
+#loading {
+    margin-top: 40px;
+    display: flex;
+    justify-content: center;
+}

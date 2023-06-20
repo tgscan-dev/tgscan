@@ -1,0 +1,36 @@
+version: '3.8'
+services:
+  postgresql:
+    container_name: tg_scan_postgresql
+    image: postgres:14.5
+    volumes:
+      - ./pg:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_USER=demo
+      - POSTGRES_PASSWORD=tgscan1024
+      - POSTGRES_HOST_AUTH_METHOD=trust
+    ports:
+      - "5432:5432"
+
+  elasticsearch:
+    image: elasticsearch:7.17.6
+    container_name: tg_scan_elasticsearch
+    privileged: true
+    environment:
+      - "cluster.name=elasticsearch"
+      - "discovery.type=single-node"
+      - "ES_JAVA_OPTS=-Xms2G -Xmx2G"
+      - bootstrap.memory_lock=true
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+
+  kibana:
+    image: kibana:7.17.6
+    container_name: tg_scan_kibana
+    depends_on:
+      - elasticsearch
+    environment:
+      ELASTICSEARCH_HOSTS: http://elasticsearch:9200
+    ports:
+      - "5601:5601"
