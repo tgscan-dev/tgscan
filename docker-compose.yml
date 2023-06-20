@@ -10,7 +10,6 @@ services:
     network_mode: host
     restart: always
     volumes:
-      - ./api-server/AutocompleteSync_last_id.txt:/app/AutocompleteSync_last_id.txt
       - ./api-server/MessageSync_last_id.txt:/app/MessageSync_last_id.txt
       - ./icon:/app/icon
     environment:

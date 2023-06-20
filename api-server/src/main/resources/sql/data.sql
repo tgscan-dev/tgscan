@@ -1,4 +1,3 @@
-
 insert into offsets (chat_id, last_offset, crawl_link, room_name, link)
 values (1241168082, 0, true, '中文频道/群组/机器人分享', 'https://t.me/s/hao1234cn');
 
@@ -91,4 +90,70 @@ values (1041186669, 0, true, '電報新群推送 Telegram Group Links',
 insert into offsets (chat_id, last_offset, crawl_link, room_name, link)
 values (1234348768, 0, false, '计算机类书籍',
         'https://t.me/bookusefor3');
+insert into offsets (chat_id, last_offset, crawl_link, room_name, link)
+values (1517529669, 0, false, '极客分享', 'https://t.me/jichangtj0');
+
+insert into offsets (chat_id, last_offset, crawl_link, room_name, link)
+values (1316082208, 0, false, '擅长搜索的高木同学', 'https://t.me/gaomutongxue');
+insert into offsets (chat_id, last_offset, crawl_link, room_name, link)
+values (1591520795, 0, false, '安卓免费破解软件分享', 'https://t.me/pojieshare');
+insert into offsets (chat_id, last_offset, crawl_link, room_name, link)
+values (1710238799, 0, false, '苓妹妹ios资源分享', 'https://t.me/iosfulishare');
+insert into offsets (chat_id, last_offset, crawl_link, room_name, link)
+values (1248406598, 0, false, 'APP喵-阿喵软件资源共享', 'https://t.me/appmew');
+insert into offsets (chat_id, last_offset, crawl_link, room_name, link)
+values (1569212697, 0, true, '频道藏馆', 'https://t.me/channelhall');
+insert into offsets (chat_id, last_offset, crawl_link, room_name, link)
+values (1782311871, 0, false, '8度科技破解频道🔥🔥', 'https://t.me/pjrjzy');
+
+insert into offsets (chat_id, last_offset, crawl_link, room_name, link)
+values (1867460980, 0, false, '白嫖联盟资源分享频道', 'https://t.me/iOSQuQ');
+
+insert into offsets (chat_id, last_offset, crawl_link, room_name, link)
+values (1834173109, 0, true, '频道索引&推荐', 'https://t.me/recommend3');
+
+insert into offsets (chat_id, last_offset, crawl_link, room_name, link)
+values (1482516947, 0, false, '分享社-节点|破解|分享|VPN', 'https://t.me/ripaojiedian');
+
+insert into offsets (chat_id, last_offset, crawl_link, room_name, link)
+values (1330141966, 0, true, '电报指南 & 精品排行榜', 'https://t.me/TgTrillion');
+
+insert into offsets (chat_id, last_offset, crawl_link, room_name, link)
+values (1663020279, 0, true, '电报群组&频道', 'https://t.me/tl_gc');
+
+insert into offsets (chat_id, last_offset, crawl_link, room_name, link)
+values (1790944354, 0, false, '油油分享频道', 'https://t.me/youyousharechannel');
+
+insert into offsets (chat_id, last_offset, crawl_link, room_name, link)
+values (1700860343, 0, false, '🍁优质软件中文VPN█', 'https://t.me/ZWAPK');
+
+insert into offsets (chat_id, last_offset, crawl_link, room_name, link)
+values (1823146735, 0, false, '李老斯分享社🎫', 'https://t.me/ztztx');
+
+insert into offsets (chat_id, last_offset, crawl_link, room_name, link)
+values (1967975862, 0, false, 'World_Channels', 'https://t.me/tgpages');
+
+insert into offsets (chat_id, last_offset, crawl_link, room_name, link)
+values (1857373488, 0, true, '书墨频道索引', 'https://t.me/shumoindex');
+
+insert into offsets (chat_id, last_offset, crawl_link, room_name, link)
+values (1679708342, 0, true, 'Akisaka索引导航', 'https://t.me/sosopd');
+insert into offsets (chat_id, last_offset, crawl_link, room_name, link)
+values (1395283134, 0, false, '秋风のとおり道', 'https://t.me/AWAvenue');
+insert into offsets (chat_id, last_offset, crawl_link, room_name, link)
+values (1256939091, 0, false, '每日分享频道', 'https://t.me/woniubuchuiniu');
+
+insert into offsets (chat_id, last_offset, crawl_link, room_name, link)
+values (1469354719, 0, false, '乱七八糟的储物箱', 'https://t.me/xyxyspace');
+insert into offsets (chat_id, last_offset, crawl_link, room_name, link)
+values (1355763844, 0, true, '索引频道', 'https://t.me/teleindex');
+insert into offsets (chat_id, last_offset, crawl_link, room_name, link)
+values (1411217383, 0, false, '精品软件分享（破解版）', 'https://t.me/pj_cn');
+insert into offsets (chat_id, last_offset, crawl_link, room_name, link)
+values (1408429613, 0, false, '极客分享', 'https://t.me/geekshare');
+insert into offsets (chat_id, last_offset, crawl_link, room_name, link)
+values (1306404674, 0, false, '大虾的编程资源库/码农/程序员资源', 'https://t.me/programmingsrchub');
+insert into offsets (chat_id, last_offset, crawl_link, room_name, link)
+values (1044805702, 0, false, '電報群組廣播', 'https://t.me/FOCUSTELEGRAMGROUPLINK');
+
 
