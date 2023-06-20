@@ -20,6 +20,6 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.PORT }}
           script: |
-            cd tgscan/
+            cd tg-scan/
             sh startup.sh
             echo "Done!"
