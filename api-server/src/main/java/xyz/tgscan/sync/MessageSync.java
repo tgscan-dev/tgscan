@@ -11,7 +11,6 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -59,11 +58,10 @@ public abstract class MessageSync extends AbstractSync {
             .filter(Offsets::getCrawlLink)
             .map(Offsets::getChatId)
             .collect(Collectors.toSet());
-    
+
     saveRoom(docs, chatIds4links);
 
     var messageDocs = docs.stream().filter(x -> !chatIds4links.contains(x.getChatId())).toList();
-
 
     save2es(messageDocs, messageIdx);
   }
@@ -105,6 +103,7 @@ public abstract class MessageSync extends AbstractSync {
         linksDocs.stream()
             .flatMap(x -> parseRoomLinks(x.getContent()).stream())
             .filter(StringUtils::isNotEmpty)
+            .map(String::toLowerCase)
             .collect(Collectors.toSet());
     var has =
         roomRepository.findByLinkIn(links).stream().map(Room::getLink).collect(Collectors.toSet());
@@ -115,5 +114,4 @@ public abstract class MessageSync extends AbstractSync {
             .toList());
     log.info("save room links: {}", notHas);
   }
-
 }
