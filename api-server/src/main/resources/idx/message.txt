@@ -1,4 +1,4 @@
-PUT /message.0502
+PUT /message.0620
 {
   "settings": {
     "index": {

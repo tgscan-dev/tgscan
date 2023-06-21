@@ -7,11 +7,12 @@
 }
 
 #PolarisPortalsContainer > div > div > div {
-    box-shadow: 0 1px 1px  #cccccc;
+    box-shadow: 0 1px 1px #cccccc;
 }
- div.Polaris-TextField__Backdrop{
-     border: 1px solid #cccccc;
- }
+
+div.Polaris-TextField__Backdrop {
+    border: 1px solid #cccccc;
+}
 
 .Polaris-Tabs__Tab--selected:focus .Polaris-Tabs__Title::before {
     background: #000000 !important;
@@ -137,7 +138,8 @@ body {
 }
 
 .Polaris-TextField--focus > .Polaris-TextField__Input ~ .Polaris-TextField__Backdrop::after, .Polaris-TextField--focus > .Polaris-TextField__VerticalContent ~ .Polaris-TextField__Backdrop::after, .Polaris-TextField__Input:focus ~ .Polaris-TextField__Backdrop::after {
-    box-shadow: 0 0 0 0.00rem var(--p-focused) !important;
+    box-shadow: 0px 0px 2px #cccccc !important;
+    border-radius: 25px;
     outline: var(--p-border-width-1) solid transparent;
 }
 

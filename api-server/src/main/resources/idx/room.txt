@@ -1,4 +1,4 @@
-PUT /room.0506
+PUT /room.0620
 {
   "settings": {
     "index": {

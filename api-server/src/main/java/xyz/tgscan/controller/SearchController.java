@@ -156,7 +156,7 @@ public class SearchController {
                                             .factor(1.0)
                                             .modifier(FieldValueFactorModifier.Log1p)
                                             .missing(1.0))
-                                .weight(15.0))
+                                .weight(20.0))
                     .functions(
                         f0 ->
                             f0.gauss(

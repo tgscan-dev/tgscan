@@ -1,17 +1,13 @@
 curl -X 'POST' \
-  'http://localhost:8080/internal/sync/fullSync4room?idx=room.0506' \
+  'http://localhost:8080/internal/sync/fullSync4room?idx=room.0620' \
   -H 'accept: */*' \
   -d ''
 
 curl -X 'POST' \
-  'http://localhost:8080/internal/sync/fullSync4message?idx=message.0506' \
+  'http://localhost:8080/internal/sync/fullSync4message?idx=message.0620' \
   -H 'accept: */*' \
   -d ''
 
-curl -X 'POST' \
-  'http://localhost:8080/internal/sync/fullSync4autocomplete?idx=autocomplete.0506' \
-  -H 'accept: */*' \
-  -d ''
 
 curl -X 'POST' \
   'http://localhost:8080/internal/crawler/rescanRoom' \

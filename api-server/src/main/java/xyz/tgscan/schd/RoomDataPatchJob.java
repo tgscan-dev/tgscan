@@ -13,10 +13,14 @@ import xyz.tgscan.repository.RoomRepository;
 @Component
 @Slf4j
 public class RoomDataPatchJob implements CommandLineRunner {
+  private static final boolean enable = false;
   @Autowired private RoomRepository roomRepository;
 
   @Override
   public void run(String... args) throws Exception {
+    if (!enable) {
+      return;
+    }
 
     new Thread(
             () -> {
