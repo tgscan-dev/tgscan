@@ -45,18 +45,24 @@ async def save_messages_to_db(messages: List, conn):
 
     for msg in messages:
         try:
+
+            file_names = []
+            for attr in msg.document.attributes:
+                file_name = attr.file_name
+                if file_name is not None:
+                    file_names.append(file_name)
+
             if msg.text is None:
                 continue
             cursor.execute(
                 R"""INSERT INTO message ("offset", chat_id, sender_id, content,send_time) VALUES (%s, %s, %s, %s, %s) ON CONFLICT DO NOTHING;""",
-                (msg.id, msg.chat.id, msg.sender.id, msg.text, msg.date))
+                (msg.id, msg.chat.id, msg.sender.id, "\n".join(file_names) + "\n" + msg.text, msg.date))
             conn.commit()
         except Exception as e:
             logging.error(f"Error occurred: {e}")
 
 
 async def main():
-
     async with TelegramClient(phone, api_id, api_hash, proxy=proxy, ) as client:
         logging.info("Open TelegramClient")
 
