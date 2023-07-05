@@ -1,9 +1,10 @@
 
-<div align="center">
+<div align="left">
   <img src="web-app/public/download.svg" width="250" alt="Logo"/>
 </div>
 
-<p align="center">
+<p align="left">
+  <div/>
   <a href="README.md">English</a> |
   <span>中文</span>
 </p>
