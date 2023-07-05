@@ -1,6 +1,6 @@
 
 <div align="left">
-  <img src="web-app/public/download.svg" width="250" alt="Logo"/>
+  <img src="web-app/public/download.svg" width="200" alt="Logo"/>
 </div>
 
 <p align="left">
