@@ -1,6 +1,6 @@
 
 <div align="left">
-  <img style="margin-top: 25px" src="web-app/public/download.svg" width="250"/>
+  <img style="margin-top: 25px" src="web-app/public/download.svg" width="200"/>
 </div>
 
 
