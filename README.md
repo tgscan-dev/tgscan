@@ -1,10 +1,11 @@
 
-<div align="center">
+<div align="left">
   <img style="margin-top: 25px" src="web-app/public/download.svg" width="250"/>
 </div>
 
 
-<p align="center">
+<p align="left">
+  <div/>
   <span>English</span>
   <span> | </span>
   <a href="README_cn.md">中文</a>
