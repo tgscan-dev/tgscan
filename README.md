@@ -11,14 +11,18 @@
   <a href="README_cn.md">中文</a>
 </p>
 
-### Overview
+## Overview
 
 This tool simplifies Telegram searches with an intuitive interface, allowing users to quickly find channels, groups, and chat history.
 
-### Usage
+## Contribution
+
+Welcome to submit code or any channels that need indexing.
+
+## Usage
 
 To get started, visit [setup.md](setup.md) for detailed setup instructions.
 
-### License
+## License
 
 This project is licensed under the GNU License. See the [LICENSE](LICENSE) file for details.
