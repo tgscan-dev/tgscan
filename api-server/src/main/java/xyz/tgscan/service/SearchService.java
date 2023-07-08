@@ -200,7 +200,7 @@ public class SearchService {
             ._toQuery();
     Query matchPhraseByDesc =
         MatchPhraseQuery.of(
-                r -> r.field(IdxConstant.ROOM_DESC).query(query.getKw()).slop(3).boost(1f))
+                r -> r.field(IdxConstant.ROOM_DESC_PHRASE).query(query.getKw()).slop(3).boost(1f))
             ._toQuery();
 
     // tg message
@@ -232,7 +232,7 @@ public class SearchService {
             ._toQuery();
     Query matchPhraseByDesc0 =
         MatchPhraseQuery.of(
-                r -> r.field(IdxConstant.MESSAGE_CONTENT).query(query.getKw()).slop(3).boost(2f))
+                r -> r.field(IdxConstant.MESSAGE_CONTENT_PHRASE).query(query.getKw()).slop(3).boost(2f))
             ._toQuery();
     var titleFilter =
         query.getTermWeight().entrySet().stream()

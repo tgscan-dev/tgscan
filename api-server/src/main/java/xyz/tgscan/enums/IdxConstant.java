@@ -1,16 +1,18 @@
 package xyz.tgscan.enums;
 
 public class IdxConstant {
-  public static final String ROOM_IDX = "room.0620";
+  public static final String ROOM_IDX = "room.0708";
   public static final String ROOM_NAME = "name";
   public static final String ROOM_MEMBER_CNT = "memberCnt";
   public static final String ROOM_TYPE = "type";
   public static final String ROOM_STATUS = "status";
   public static final String ROOM_DESC = "jhiDesc";
-  public static final String MESSAGE_IDX = "message.0620";
+  public static final String ROOM_DESC_PHRASE = "phraseJhiDesc";
+  public static final String MESSAGE_IDX = "message.0708";
 
   public static final String MESSAGE_TITLE = "title";
   public static final String MESSAGE_SEND_TIME = "sendTime";
   public static final String MESSAGE_TYPE = "type";
   public static final String MESSAGE_CONTENT = "content";
+  public static final String MESSAGE_CONTENT_PHRASE = "phraseContent";
 }
