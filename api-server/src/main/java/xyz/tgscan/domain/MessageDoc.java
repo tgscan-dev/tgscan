@@ -38,10 +38,12 @@ public class MessageDoc {
   @JsonIgnore private String _class;
   @Id private String id;
   private String content;
+  private String phraseContent;
   private String type;
   private Long chatId;
   private Long offset;
   private String title;
+  private String phraseTitle;
   private List<String> tags;
   private Date sendTime;
 
@@ -60,9 +62,11 @@ public class MessageDoc {
             .replaceAll(String.join("|", namePrefix), "");
     var tags = parseTags(msg);
     messageDoc.setTitle(title);
+    messageDoc.setPhraseTitle(title);
     messageDoc.setTags(tags);
 
     messageDoc.setContent(msg);
+    messageDoc.setPhraseContent(msg);
     messageDoc.setType(TgRoomTypeParamEnum.MESSAGE.name());
     messageDoc.setChatId(messages.getChatId());
     messageDoc.setOffset(messages.getOffset());

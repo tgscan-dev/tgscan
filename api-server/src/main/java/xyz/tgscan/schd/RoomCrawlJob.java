@@ -297,19 +297,20 @@ public class RoomCrawlJob {
 
   public void rescan() {
     rescan = true;
-
+    var count = roomRepository.count();
     try {
       int page = 0, size = 50;
+      int totalPage = (int) (count / 50);
       while (true) {
         Page<Room> rooms =
             roomRepository.findAll(PageRequest.of(page, size, Sort.Direction.ASC, "id"));
 
         submitCrawlTasks(rooms);
 
-        if (rooms.isLast()) {
+        page++;
+        if (page > totalPage) {
           break;
         }
-        page++;
       }
     } finally {
       rescan = false;

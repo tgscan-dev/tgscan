@@ -1,4 +1,4 @@
-PUT /message.0620
+PUT /message.0708
 {
   "settings": {
     "index": {
@@ -39,6 +39,13 @@ PUT /message.0620
               "tsconvert"
             ],
             "tokenizer": "ik_max_word"
+          },
+          "phrase_index_analyzer": {
+            "filter": [
+              "lowercase",
+              "tsconvert"
+            ],
+            "tokenizer": "my_ik_smart"
           },
           "search_analyzer": {
             "filter": [
@@ -81,6 +88,16 @@ PUT /message.0620
       "content": {
         "type": "text",
         "analyzer": "index_analyzer",
+        "search_analyzer": "search_analyzer"
+      },
+      "phrase_title": {
+        "type": "text",
+        "analyzer": "phrase_index_analyzer",
+        "search_analyzer": "search_analyzer"
+      },
+      "phrase_content": {
+        "type": "text",
+        "analyzer": "phrase_index_analyzer",
         "search_analyzer": "search_analyzer"
       }
     }

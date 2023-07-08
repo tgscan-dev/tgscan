@@ -18,8 +18,10 @@ public class RoomDoc {
   private String link;
 
   private String name;
+  private String phraseName;
 
   private String jhiDesc;
+  private String phraseJhiDesc;
 
   private Integer memberCnt;
 
@@ -32,6 +34,8 @@ public class RoomDoc {
   public static RoomDoc fromEntity(Room room) {
     RoomDoc roomDoc = new RoomDoc();
     roomDoc.setId(room.getId());
+    roomDoc.setPhraseName(room.getName());
+    roomDoc.setPhraseJhiDesc(room.getJhiDesc());
     roomDoc.setLink(room.getLink());
     roomDoc.setName(room.getName());
     roomDoc.setJhiDesc(room.getJhiDesc());
