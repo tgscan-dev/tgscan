@@ -7,7 +7,6 @@ import com.github.rholder.retry.Retryer;
 import com.github.rholder.retry.RetryerBuilder;
 import com.github.rholder.retry.StopStrategies;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
-import io.micrometer.common.util.StringUtils;
 import jakarta.annotation.PostConstruct;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -20,8 +19,8 @@ import java.util.*;
 import java.util.concurrent.*;
 import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpEntity;
-import org.apache.http.HttpHost;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -47,7 +46,7 @@ import xyz.tgscan.repository.RoomRepository;
 @Component
 @Slf4j
 public class RoomCrawlJob {
-  private static final ArrayBlockingQueue<String> proxyQ = new ArrayBlockingQueue<>(50);
+  //  private static final ArrayBlockingQueue<String> proxyQ = new ArrayBlockingQueue<>(50);
   private static final String PROXY_URL =
       "https://tq.lunaproxy.com/getflowip?neek=1029717&num=50&type=2&sep=1&regions=all&ip_si=1&level=1&sb=";
   private final Retryer<String> retryer =
@@ -110,28 +109,28 @@ public class RoomCrawlJob {
 
   @PostConstruct
   public void init() {
-    new Thread(
-            () -> {
-              while (true) {
-                if (!enable && !rescan) {
-                  try {
-                    TimeUnit.SECONDS.sleep(5);
-                  } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                  }
-                  continue;
-                }
-                List<String> proxy = getProxy();
-                for (String s : proxy) {
-                  if (StringUtils.isEmpty(s)) {
-                    log.error("proxy is empty:{}", s);
-                  } else {
-                    proxyQ.offer(s);
-                  }
-                }
-              }
-            })
-        .start();
+    //    new Thread(
+    //            () -> {
+    //              while (true) {
+    //                if (!enable && !rescan) {
+    //                  try {
+    //                    TimeUnit.SECONDS.sleep(5);
+    //                  } catch (InterruptedException e) {
+    //                    throw new RuntimeException(e);
+    //                  }
+    //                  continue;
+    //                }
+    //                List<String> proxy = getProxy();
+    //                for (String s : proxy) {
+    //                  if (StringUtils.isEmpty(s)) {
+    //                    log.error("proxy is empty:{}", s);
+    //                  } else {
+    //                    proxyQ.offer(s);
+    //                  }
+    //                }
+    //              }
+    //            })
+    //        .start();
   }
 
   private boolean isLocal() {
@@ -244,7 +243,6 @@ public class RoomCrawlJob {
       room.setType("GROUP");
       var save = roomRepository.save(room);
       roomDocRepository.save(RoomDoc.fromEntity(save));
-    
     }
     boolean isBot =
         doc.select(
@@ -264,18 +262,19 @@ public class RoomCrawlJob {
           () -> {
             try {
               HttpGet request = new HttpGet(room.getLink());
-              String proxy = proxyWrap.get();
-              if (StringUtils.isEmpty(proxy)) {
-                var take = proxyQ.take();
-                proxyWrap.set(take);
-                proxy = take;
-              }
-              log.debug("use proxy:{}", proxy);
+              //              String proxy = proxyWrap.get();
+              //              if (StringUtils.isEmpty(proxy)) {
+              //                var take = proxyQ.take();
+              //                proxyWrap.set(take);
+              //                proxy = take;
+              //              }
+              //              log.debug("use proxy:{}", proxy);
 
-              String[] split = proxy.split(":");
+              //              String[] split = proxy.split(":");
               request.setConfig(
                   RequestConfig.custom()
-                      .setProxy(new HttpHost(split[0], Integer.parseInt(split[1])))
+                      //                      .setProxy(new HttpHost(split[0],
+                      // Integer.parseInt(split[1])))
                       .build());
 
               CloseableHttpResponse resp = client.execute(request);
@@ -286,7 +285,7 @@ public class RoomCrawlJob {
                   "download err, will retry! room:{}, err:{}",
                   JSON.toJSONString(room),
                   e.getMessage());
-              proxyWrap.set(proxyQ.take());
+              //              proxyWrap.set(proxyQ.take());
               throw e;
             }
           });
@@ -307,7 +306,7 @@ public class RoomCrawlJob {
 
         submitCrawlTasks(rooms);
 
-        if (!rooms.hasNext()) {
+        if (rooms.isLast()) {
           break;
         }
         page++;
@@ -329,6 +328,10 @@ public class RoomCrawlJob {
               log.info("end fetch:{}", room.getLink());
             } catch (Throwable e) {
               log.error("fetch err, room:{}, err:{}", JSON.toJSONString(room), e.getMessage());
+              if (StringUtils.isNotEmpty(room.getName()) && room.getMemberCnt() > 0) {
+                log.warn("need check: " + JSON.toJSONString(room));
+                return;
+              }
               room.setStatus("ERROR");
               roomRepository.save(room);
             }
