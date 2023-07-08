@@ -9,9 +9,9 @@ function Footer() {
 
     return (<div className={'foot'}>
             { <FooterHelp>
-                © 2023 tgscan. &nbsp;
+                © 2023 TGSCAN. &nbsp;
                 <Link url="https://github.com/tgscan-dev/tgscan" external={true}>
-                    Github
+                    GITHUB
                 </Link>
             </FooterHelp>}
 
