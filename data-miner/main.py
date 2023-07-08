@@ -49,8 +49,8 @@ async def save_messages_to_db(messages: List, conn):
             file_names = []
             if msg.document is not None:
                 for attr in msg.document.attributes:
-                    file_name = attr.file_name
-                    if file_name is not None:
+                    if hasattr(attr, 'file_name'):
+                        file_name = attr.file_name
                         file_names.append(file_name)
 
             if msg.text is None:

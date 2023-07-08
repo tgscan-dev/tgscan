@@ -154,6 +154,51 @@ values (1408429613, 0, false, '极客分享', 'https://t.me/geekshare');
 insert into offsets (chat_id, last_offset, crawl_link, room_name, link)
 values (1306404674, 0, false, '大虾的编程资源库/码农/程序员资源', 'https://t.me/programmingsrchub');
 insert into offsets (chat_id, last_offset, crawl_link, room_name, link)
-values (1044805702, 0, false, '電報群組廣播', 'https://t.me/FOCUSTELEGRAMGROUPLINK');
+values (1044805702, 0, true, '電報群組廣播', 'https://t.me/FOCUSTELEGRAMGROUPLINK');
 
+insert into offsets (chat_id, last_offset, crawl_link, room_name, link)
+values (1198853752, 0, false, '🎬 阿里云盘盘🎬 🆙 🚦', 'https://t.me/yunpanpan');
 
+insert into offsets (chat_id, last_offset, crawl_link, room_name, link)
+values (1651435712, 0, false, 'A姐分享', 'https://t.me/abskoop');
+insert into offsets (chat_id, last_offset, crawl_link, room_name, link)
+values (1167180246, 0, false, 'Google Drive 资源 | New @gdurl', 'https://t.me/gdsharing');
+insert into offsets (chat_id, last_offset, crawl_link, room_name, link)
+values (1346657939, 0, false, '[好读] ReadFine电子书屋', 'https://t.me/Readfine');
+
+insert into offsets (chat_id, last_offset, crawl_link, room_name, link)
+values (1074472426, 0, false, '好书分享频道', 'https://t.me/Bookworm_Bibliophile');
+
+insert into offsets (chat_id, last_offset, crawl_link, room_name, link)
+values (1398999837, 0, false, 'Emby影视资源发布', 'https://t.me/Plus_Movie_Best');
+
+insert into offsets (chat_id, last_offset, crawl_link, room_name, link)
+values (1794251096, 0, false, '胖虎の收藏夹', 'https://t.me/gitbig');
+insert into offsets (chat_id, last_offset, crawl_link, room_name, link)
+values (1468900354, 0, false, 'Zapro Notice', 'https://t.me/zaproshare');
+insert into offsets (chat_id, last_offset, crawl_link, room_name, link)
+values (1351552963, 0, false, 'LIHAI Channel', 'https://t.me/lihaiba');
+insert into offsets (chat_id, last_offset, crawl_link, room_name, link)
+values (1618421074, 0, false, '肯德基 4K 电影 发布频道🍟', 'https://t.me/XiangxiuNB');
+insert into offsets (chat_id, last_offset, crawl_link, room_name, link)
+values (1189167288, 0, false, '计算机与部分其他种类书籍资源', 'https://t.me/bookusefor2');
+insert into offsets (chat_id, last_offset, crawl_link, room_name, link)
+values (1534116236, 0, false, 'PDF图书联盟|电子书|ebook📖', 'https://t.me/PDFtushuguan');
+insert into offsets (chat_id, last_offset, crawl_link, room_name, link)
+values (1497988522, 0, false, '🏆资源福利分享', 'https://t.me/freemorebest');
+insert into offsets (chat_id, last_offset, crawl_link, room_name, link)
+values (1340684391, 0, false, '电影爱好者', 'https://t.me/MovieAnywhere');
+insert into offsets (chat_id, last_offset, crawl_link, room_name, link)
+values (1317743306, 0, false, 'PDF资料', 'https://t.me/pdf_001');
+
+insert into offsets (chat_id, last_offset, crawl_link, room_name, link)
+values (1261922337, 0, false, 'Netflix影视🎬𝑵𝑭𝑯𝑫', 'https://t.me/PornNFHD');
+
+insert into offsets (chat_id, last_offset, crawl_link, room_name, link)
+values (1204525035, 0, false, '📖Telegram数字图书馆', 'https://t.me/TG_book_data');
+insert into offsets (chat_id, last_offset, crawl_link, room_name, link)
+values (1653356341, 0, false, '纪录片爱好者', 'https://t.me/jlpahz');
+insert into offsets (chat_id, last_offset, crawl_link, room_name, link)
+values (1702674582, 0, false, '高画质动漫分享 Anime share', 'https://t.me/YXHMd');
+insert into offsets (chat_id, last_offset, crawl_link, room_name, link)
+values (1157306290, 0, false, 'RARTV', 'https://t.me/rartv');
