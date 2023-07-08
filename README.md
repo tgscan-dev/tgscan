@@ -16,10 +16,10 @@
 This tool simplifies Telegram searches with an intuitive interface, allowing users to quickly find channels, groups, and chat history.
 
 ## Features
-- Intuitive search interface
 - Fast search results
-- Near-real-time indexing for up-to-date search results
+- Intuitive search interface
 - Ability to search chat history
+- Near-real-time indexing for up-to-date search results
 
 
 ## Contribution
