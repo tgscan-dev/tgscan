@@ -13,7 +13,7 @@ import xyz.tgscan.enums.IdxConstant;
 @Document(indexName = IdxConstant.ROOM_IDX, createIndex = false)
 public class RoomDoc {
   @JsonIgnore private String _class;
-  @Id private Long id;
+  @Id private String id;
 
   private String link;
 
@@ -33,7 +33,7 @@ public class RoomDoc {
 
   public static RoomDoc fromEntity(Room room) {
     RoomDoc roomDoc = new RoomDoc();
-    roomDoc.setId(room.getId());
+    roomDoc.setId(room.getLink());
     roomDoc.setPhraseName(room.getName());
     roomDoc.setPhraseJhiDesc(room.getJhiDesc());
     roomDoc.setLink(room.getLink());
