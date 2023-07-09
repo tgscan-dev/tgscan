@@ -12,7 +12,7 @@ import xyz.tgscan.enums.IdxConstant;
 @Document(indexName = IdxConstant.ROOM_IDX, createIndex = false)
 public class RoomDocDTO {
 
-  @Id private Long id;
+  @Id private String id;
 
   private String link;
 
@@ -25,7 +25,7 @@ public class RoomDocDTO {
 
   public static RoomDocDTO fromTgRoomDoc(Map tgRoomDoc, String name, String jhiDesc) {
     RoomDocDTO roomDocDTO = new RoomDocDTO();
-    roomDocDTO.setId(Long.valueOf(tgRoomDoc.get("id").toString()));
+    roomDocDTO.setId(tgRoomDoc.get("id").toString());
     roomDocDTO.setLink((String) tgRoomDoc.get("link"));
     roomDocDTO.setMemberCnt((Integer) tgRoomDoc.get("memberCnt"));
     roomDocDTO.setType((String) tgRoomDoc.get("type"));
