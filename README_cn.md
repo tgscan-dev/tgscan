@@ -32,4 +32,4 @@
 
 ## Contact
 
-https://t.me/tgscan_dev
+[Telegram](https://t.me/tgscan_dev)

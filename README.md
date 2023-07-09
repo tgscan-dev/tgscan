@@ -36,4 +36,4 @@ This project is licensed under the GNU License. See the [LICENSE](LICENSE) file 
 
 ## Contact
 
-https://t.me/tgscan_dev
+[Telegram](https://t.me/tgscan_dev)
