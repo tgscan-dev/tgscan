@@ -12,7 +12,7 @@ function SearchInput({kw}) {
     const deselectedOptions = useMemo(() => [
         {value: 'NSFW', label: 'NSFW'},
         {value: 'chatGPT', label: 'chatGPT'},
-        {value: 'Java', label: 'Java'},
+        {value: 'crypto', label: 'Crypto'},
         {value: 'Telegram', label: 'Telegram'},
         {value: 'Twitter', label: 'Twitter'},
     ], [],);
