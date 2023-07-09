@@ -202,3 +202,31 @@ insert into offsets (chat_id, last_offset, crawl_link, room_name, link)
 values (1702674582, 0, false, '高画质动漫分享 Anime share', 'https://t.me/YXHMd');
 insert into offsets (chat_id, last_offset, crawl_link, room_name, link)
 values (1157306290, 0, false, 'RARTV', 'https://t.me/rartv');
+
+insert into offsets (chat_id, last_offset, crawl_link, room_name, link)
+values (1540332785, 0, false, '📺 有品佳片', 'https://t.me/dianshiju0');
+insert into offsets (chat_id, last_offset, crawl_link, room_name, link)
+values (1205939509, 0, false, 'Zeroの电影院线 Channel', 'https://t.me/zerodemovie');
+insert into offsets (chat_id, last_offset, crawl_link, room_name, link)
+values (1439795692, 0, false, 'Programming Books', 'https://t.me/progerbooks');
+
+insert into offsets (chat_id, last_offset, crawl_link, room_name, link)
+values (1841242424, 0, false, 'The Real Has Come! (2023)', 'https://t.me/The_Real_Has_Come_Drama');
+
+
+insert into offsets (chat_id, last_offset, crawl_link, room_name, link)
+values (1816041709, 0, false, '破解软件ꪜVPN小说中文ꪜ', 'https://t.me/funn_apk');
+insert into offsets (chat_id, last_offset, crawl_link, room_name, link)
+values (1658744294, 0, false, '老司机破解软件app频道', 'https://t.me/lsjkc1234');
+insert into offsets (chat_id, last_offset, crawl_link, room_name, link)
+values (1223001651, 0, false, '破解软件PC频道', 'https://t.me/QQ877752030');
+insert into offsets (chat_id, last_offset, crawl_link, room_name, link)
+values (1269912539, 0, false, '🌎破解软件💥💥禁播视频🚀资源分享', 'https://t.me/NIceov');
+insert into offsets (chat_id, last_offset, crawl_link, room_name, link)
+values (1466062197, 0, false, '影院前线电影群', 'https://t.me/yyqx1025');
+insert into offsets (chat_id, last_offset, crawl_link, room_name, link)
+values (1247353087, 0, true, 'Telegram links share ❤️', 'https://t.me/sharetglinks');
+insert into offsets (chat_id, last_offset, crawl_link, room_name, link)
+values (1332429530, 0, true, 'Telegram Group Links 🕊', 'https://t.me/grouplinks_1');
+insert into offsets (chat_id, last_offset, crawl_link, room_name, link)
+
