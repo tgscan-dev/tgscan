@@ -74,7 +74,14 @@ public class RoomCrawlJob {
   @Autowired private RoomDocRepository roomDocRepository;
   @Autowired private Environment environment;
 
-  public static void main(String[] args) throws IOException {}
+  public static void main(String[] args) throws IOException {
+    var roomCrawlJob = new RoomCrawlJob();
+    var url = "https://t.me/gsdqj";
+    var room = new Room().setLink(url);
+    var room1 = room;
+    roomCrawlJob.fetch(room1);
+    System.out.println(room1);
+  }
 
   public void enable() {
     enable = true;
@@ -230,7 +237,7 @@ public class RoomCrawlJob {
         });
     boolean isChannel = statiscs.contains("subscribers");
     if (isChannel) {
-      String subscribers = statiscs.split(" ")[0];
+      String subscribers = statiscs.replaceAll("subscribers", "").replaceAll(" ", "");
       room.setType("CHANNEL");
       room.setMemberCnt(Integer.valueOf(subscribers));
       var save = roomRepository.save(room);
