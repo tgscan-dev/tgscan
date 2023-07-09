@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.util.*;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import nonapi.io.github.classgraph.utils.URLPathEncoder;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.HttpClients;
@@ -66,7 +67,10 @@ public class SearchController {
   @SneakyThrows
   @GetMapping("autocomplete")
   public List<String> autocomplete(@RequestParam("kw") String kw) {
-    var resp = client.execute(new HttpGet("http://api.bing.com/qsonhs.aspx?type=cb&q=" + kw));
+    var resp =
+        client.execute(
+            new HttpGet(
+                "http://api.bing.com/qsonhs.aspx?type=cb&q=" + URLPathEncoder.encodePath(kw)));
     var entity = resp.getEntity();
     var string = EntityUtils.toString(entity);
     var json = JSON.parseObject(string, AutoCompleteDTO.class);
