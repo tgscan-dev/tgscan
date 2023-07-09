@@ -131,7 +131,7 @@ insert into offsets (chat_id, last_offset, crawl_link, room_name, link)
 values (1823146735, 0, false, '李老斯分享社🎫', 'https://t.me/ztztx');
 
 insert into offsets (chat_id, last_offset, crawl_link, room_name, link)
-values (1967975862, 0, false, 'World_Channels', 'https://t.me/tgpages');
+values (1967975862, 0, true, 'World_Channels', 'https://t.me/tgpages');
 
 insert into offsets (chat_id, last_offset, crawl_link, room_name, link)
 values (1857373488, 0, true, '书墨频道索引', 'https://t.me/shumoindex');
