@@ -1,8 +1,7 @@
 <h1 align="center">
-  <br>
+ 
   <a href="https://www.tgscan.xyz"><img style="margin-top: 25px" src="web-app/public/download.svg" width="200"/></a>
-  <br>
-  <br>
+
 </h1>
 
 <h4 align="center">简化Telegram搜索：轻松找到频道、群组和聊天记录。</h4>
