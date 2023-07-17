@@ -70,7 +70,7 @@ public class SearchController {
     var resp =
         client.execute(
             new HttpGet(
-                "http://api.bing.com/qsonhs.aspx?type=cb&q=" + URLPathEncoder.encodePath(kw)));
+                "http://api.bing.com/qsonhs.aspx?q=" + URLPathEncoder.encodePath(kw)));
     var entity = resp.getEntity();
     var string = EntityUtils.toString(entity);
     var json = JSON.parseObject(string, AutoCompleteDTO.class);
