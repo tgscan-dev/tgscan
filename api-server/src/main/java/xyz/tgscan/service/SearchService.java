@@ -1,11 +1,15 @@
 package xyz.tgscan.service;
 
+import static xyz.tgscan.enums.IdxConstant.MESSAGE_CONTENT_PHRASE;
+
 import co.elastic.clients.elasticsearch.ElasticsearchClient;
 import co.elastic.clients.elasticsearch._types.query_dsl.*;
 import co.elastic.clients.elasticsearch.core.SearchRequest;
 import co.elastic.clients.elasticsearch.core.SearchResponse;
 import co.elastic.clients.elasticsearch.core.search.Highlight;
 import co.elastic.clients.elasticsearch.core.search.HitsMetadata;
+import co.elastic.clients.elasticsearch.core.search.SourceConfig;
+import co.elastic.clients.elasticsearch.core.search.SourceFilter;
 import co.elastic.clients.json.JsonData;
 import co.elastic.clients.util.ObjectBuilder;
 import java.util.List;
@@ -56,6 +60,17 @@ public class SearchService {
                 .size(PAGE_SIZE)
                 .from(from)
                 .query(esQuery)
+                .source(
+                    new SourceConfig.Builder()
+                        .filter(
+                            new SourceFilter.Builder()
+                                .excludes(
+                                    IdxConstant.ROOM_STANDARD_DESC,
+                                    IdxConstant.ROOM_STANDARD_NAME,
+                                    IdxConstant.ROOM_DESC_PHRASE,
+                                    IdxConstant.MESSAGE_CONTENT_PHRASE)
+                                .build())
+                        .build())
                 .highlight(highLight);
 
     // Create the search request builder
@@ -83,14 +98,16 @@ public class SearchService {
                     var name =
                         java.lang.String.join(
                             " ",
-                            Optional.ofNullable(tgRoomDocHit.highlight().get(IdxConstant.ROOM_NAME))
+                            Optional.ofNullable(
+                                    tgRoomDocHit.highlight().get(IdxConstant.ROOM_STANDARD_NAME))
                                 .orElse(
                                     List.of(
                                         Objects.requireNonNull(source).get("name").toString())));
                     var jhiDesc =
                         java.lang.String.join(
                             " ",
-                            Optional.ofNullable(tgRoomDocHit.highlight().get(IdxConstant.ROOM_DESC))
+                            Optional.ofNullable(
+                                    tgRoomDocHit.highlight().get(IdxConstant.ROOM_STANDARD_DESC))
                                 .orElse(List.of(source.get("jhiDesc").toString())));
                     return RoomDocDTO.fromTgRoomDoc(source, name, jhiDesc);
                   }
@@ -123,16 +140,16 @@ public class SearchService {
   private Function<Highlight.Builder, ObjectBuilder<Highlight>> buildHighLight() {
     return h ->
         h.fields(
-                IdxConstant.ROOM_NAME,
+                IdxConstant.ROOM_STANDARD_NAME,
                 f ->
-                    f.matchedFields(IdxConstant.ROOM_NAME)
+                    f.matchedFields(IdxConstant.ROOM_STANDARD_NAME)
                         .preTags(PRE_TAGS)
                         .postTags(POST_TAGS)
                         .requireFieldMatch(false))
             .fields(
-                IdxConstant.ROOM_DESC,
+                IdxConstant.ROOM_STANDARD_DESC,
                 f ->
-                    f.matchedFields(IdxConstant.ROOM_DESC)
+                    f.matchedFields(IdxConstant.ROOM_STANDARD_DESC)
                         .preTags(PRE_TAGS)
                         .postTags(POST_TAGS)
                         .requireFieldMatch(false))
@@ -160,8 +177,14 @@ public class SearchService {
     Query matchByName =
         MatchQuery.of(m -> m.field(IdxConstant.ROOM_NAME).query(query.getKw()).boost(2f))
             ._toQuery();
+    Query matchByStandardName =
+        MatchQuery.of(m -> m.field(IdxConstant.ROOM_STANDARD_NAME).query(query.getKw()).boost(2f))
+            ._toQuery();
     Query matchByDesc =
         MatchQuery.of(r -> r.field(IdxConstant.ROOM_DESC).query(query.getKw()).boost(1f))
+            ._toQuery();
+    Query matchByStandardDesc =
+        MatchQuery.of(r -> r.field(IdxConstant.ROOM_STANDARD_DESC).query(query.getKw()).boost(1f))
             ._toQuery();
 
     // tg message
@@ -198,9 +221,17 @@ public class SearchService {
         MatchPhraseQuery.of(
                 m -> m.field(IdxConstant.ROOM_NAME).query(query.getKw()).slop(3).boost(6f))
             ._toQuery();
+    Query matchPhraseByStandardName =
+        MatchPhraseQuery.of(
+                m -> m.field(IdxConstant.ROOM_STANDARD_NAME).query(query.getKw()).slop(3).boost(6f))
+            ._toQuery();
     Query matchPhraseByDesc =
         MatchPhraseQuery.of(
                 r -> r.field(IdxConstant.ROOM_DESC_PHRASE).query(query.getKw()).slop(3).boost(1f))
+            ._toQuery();
+    Query matchPhraseByStandardDesc =
+        MatchPhraseQuery.of(
+                r -> r.field(IdxConstant.ROOM_STANDARD_DESC).query(query.getKw()).slop(3).boost(1f))
             ._toQuery();
 
     // tg message
@@ -232,7 +263,7 @@ public class SearchService {
             ._toQuery();
     Query matchPhraseByDesc0 =
         MatchPhraseQuery.of(
-                r -> r.field(IdxConstant.MESSAGE_CONTENT_PHRASE).query(query.getKw()).slop(3).boost(2f))
+                r -> r.field(MESSAGE_CONTENT_PHRASE).query(query.getKw()).slop(3).boost(2f))
             ._toQuery();
     var titleFilter =
         query.getTermWeight().entrySet().stream()
@@ -281,11 +312,15 @@ public class SearchService {
                                                 termByDesc.forEach(y1::should);
                                                 return y1.should(matchPhraseByName)
                                                     .should(matchPhraseByDesc)
+                                                    .should(matchPhraseByStandardName)
+                                                    .should(matchPhraseByStandardDesc)
                                                     .should(matchPhraseByTitle)
                                                     .should(matchPhraseByDesc0)
                                                     .should(matchByName)
+                                                    .should(matchByStandardName)
                                                     .should(matchByDesc0)
                                                     .should(matchByDesc)
+                                                    .should(matchByStandardDesc)
                                                     .should(matchByTitle);
                                               }));
                                 }))

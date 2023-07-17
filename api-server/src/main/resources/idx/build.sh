@@ -1,5 +1,5 @@
 curl -X 'POST' \
-  'http://localhost:8080/internal/sync/fullSync4room?idx=room.0708' \
+  'http://localhost:8080/internal/sync/fullSync4room?idx=room.0717' \
   -H 'accept: */*' \
   -d ''
 
@@ -14,7 +14,7 @@ curl -X 'POST' \
   -H 'accept: */*' \
   -d ''
 
-docker logs -f --tail 10 tgscan-api-server-1
+docker logs -f --tail 100 tgscan-api-server-1
 docker logs tgscan-api-server-1|grep fetch
 
 docker logs -f --tail 10 tgscan-data-miner-1
