@@ -3,14 +3,14 @@
 <a href="https://www.tgscan.xyz"><img style="margin-top: 25px" src="web-app/public/download.svg" width="200"/></a>
 
 </h1>
-
-<h4 align="center">简化Telegram搜索：轻松找到频道、群组和聊天记录。</h4>
-
 <p align="center" style="margin-top: 20px">
   <a href="README.md">English</a>
   <span> | </span>
   <span >中文</span>
 </p>
+<h4 align="center">简化Telegram搜索：轻松找到频道、群组和聊天记录。</h4>
+
+
 <h4 align="center">
   <a href="https://github.com/tgscan-dev/tgscan/actions/workflows/main.yml">
     <img src="https://img.shields.io/github/actions/workflow/status/tgscan-dev/tgscan/main.yml?branch=main&label=pipeline&style=flat-square" alt="连续集成">

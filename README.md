@@ -4,13 +4,14 @@
  
 </h1>
 
-<h4 align="center">Streamline Your Telegram Searches: Find Channels, Groups, and Chat History Effortlessly.</h4>
-
 <p align="center" style="margin-top: 20px">
   <span>English</span>
   <span> | </span>
   <a href="README_cn.md">中文</a>
 </p>
+<h4 align="center">Streamline Your Telegram Searches: Find Channels, Groups, and Chat History Effortlessly.</h4>
+
+
 
 <h4 align="center">
   <a href="https://github.com/tgscan-dev/tgscan/actions/workflows/main.yml">
