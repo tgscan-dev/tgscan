@@ -39,6 +39,8 @@ const Items = () => {
     const [items, setItems] = useState([]);
     const [total, setTotal] = useState(0);
     const debounceSearch = pDebounce(search, 200);
+    const debounceToastError = pDebounce(toast.error, 200);
+
     // const [loading, setLoading] = useState(true);
     useEffect(() => {
         const input = document.querySelector(".items .input input");
@@ -64,6 +66,7 @@ const Items = () => {
         user.kw = kw;
         setSelected(type2selected(type));
 
+
         debounceSearch(kw, page, type).then((res) => {
             if (!res.doc) {
                 return
@@ -72,8 +75,9 @@ const Items = () => {
             setTotal(res.totalPage);
             user.loading = false;
         }).catch((e) => {
+            // debugger
             console.log(e);
-            toast.error('Operation failed, please try again later.', {
+            let _ = debounceToastError('Operation failed, please try again later.', {
                 position: "bottom-right",
                 autoClose: 5000,
                 hideProgressBar: false,
