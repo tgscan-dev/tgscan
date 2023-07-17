@@ -172,28 +172,31 @@ public class SearchService {
 
   private Function<Query.Builder, ObjectBuilder<Query>> buildESQuery(
       TgRoomTypeParamEnum type, QueryDTO query) {
-    // Create queries to match by name and description
+
     // tg room
+
+    var kw = query.getKw();
+    Query termByUsername =
+        TermQuery.of(
+                m ->
+                    m.field(IdxConstant.ROOM_USERNAME)
+                        .value(kw.startsWith("@") ? kw.substring(1) : kw)
+                        .boost(100f))
+            ._toQuery();
     Query matchByName =
-        MatchQuery.of(m -> m.field(IdxConstant.ROOM_NAME).query(query.getKw()).boost(2f))
-            ._toQuery();
+        MatchQuery.of(m -> m.field(IdxConstant.ROOM_NAME).query(kw).boost(2f))._toQuery();
     Query matchByStandardName =
-        MatchQuery.of(m -> m.field(IdxConstant.ROOM_STANDARD_NAME).query(query.getKw()).boost(2f))
-            ._toQuery();
+        MatchQuery.of(m -> m.field(IdxConstant.ROOM_STANDARD_NAME).query(kw).boost(2f))._toQuery();
     Query matchByDesc =
-        MatchQuery.of(r -> r.field(IdxConstant.ROOM_DESC).query(query.getKw()).boost(1f))
-            ._toQuery();
+        MatchQuery.of(r -> r.field(IdxConstant.ROOM_DESC).query(kw).boost(1f))._toQuery();
     Query matchByStandardDesc =
-        MatchQuery.of(r -> r.field(IdxConstant.ROOM_STANDARD_DESC).query(query.getKw()).boost(1f))
-            ._toQuery();
+        MatchQuery.of(r -> r.field(IdxConstant.ROOM_STANDARD_DESC).query(kw).boost(1f))._toQuery();
 
     // tg message
     Query matchByTitle =
-        MatchQuery.of(m -> m.field(IdxConstant.MESSAGE_TITLE).query(query.getKw()).boost(2f))
-            ._toQuery();
+        MatchQuery.of(m -> m.field(IdxConstant.MESSAGE_TITLE).query(kw).boost(2f))._toQuery();
     Query matchByDesc0 =
-        MatchQuery.of(r -> r.field(IdxConstant.MESSAGE_CONTENT).query(query.getKw()).boost(1f))
-            ._toQuery();
+        MatchQuery.of(r -> r.field(IdxConstant.MESSAGE_CONTENT).query(kw).boost(1f))._toQuery();
 
     var termByName =
         query.getTermWeight().entrySet().stream()
@@ -218,20 +221,18 @@ public class SearchService {
                         ._toQuery())
             .toList();
     Query matchPhraseByName =
-        MatchPhraseQuery.of(
-                m -> m.field(IdxConstant.ROOM_NAME).query(query.getKw()).slop(3).boost(6f))
+        MatchPhraseQuery.of(m -> m.field(IdxConstant.ROOM_NAME).query(kw).slop(3).boost(6f))
             ._toQuery();
     Query matchPhraseByStandardName =
         MatchPhraseQuery.of(
-                m -> m.field(IdxConstant.ROOM_STANDARD_NAME).query(query.getKw()).slop(3).boost(6f))
+                m -> m.field(IdxConstant.ROOM_STANDARD_NAME).query(kw).slop(3).boost(6f))
             ._toQuery();
     Query matchPhraseByDesc =
-        MatchPhraseQuery.of(
-                r -> r.field(IdxConstant.ROOM_DESC_PHRASE).query(query.getKw()).slop(3).boost(1f))
+        MatchPhraseQuery.of(r -> r.field(IdxConstant.ROOM_DESC_PHRASE).query(kw).slop(3).boost(1f))
             ._toQuery();
     Query matchPhraseByStandardDesc =
         MatchPhraseQuery.of(
-                r -> r.field(IdxConstant.ROOM_STANDARD_DESC).query(query.getKw()).slop(3).boost(1f))
+                r -> r.field(IdxConstant.ROOM_STANDARD_DESC).query(kw).slop(3).boost(1f))
             ._toQuery();
 
     // tg message
@@ -258,12 +259,10 @@ public class SearchService {
                         ._toQuery())
             .toList();
     Query matchPhraseByTitle =
-        MatchPhraseQuery.of(
-                m -> m.field(IdxConstant.MESSAGE_TITLE).query(query.getKw()).slop(3).boost(6f))
+        MatchPhraseQuery.of(m -> m.field(IdxConstant.MESSAGE_TITLE).query(kw).slop(3).boost(6f))
             ._toQuery();
     Query matchPhraseByDesc0 =
-        MatchPhraseQuery.of(
-                r -> r.field(MESSAGE_CONTENT_PHRASE).query(query.getKw()).slop(3).boost(2f))
+        MatchPhraseQuery.of(r -> r.field(MESSAGE_CONTENT_PHRASE).query(kw).slop(3).boost(2f))
             ._toQuery();
     var titleFilter =
         query.getTermWeight().entrySet().stream()
@@ -317,6 +316,7 @@ public class SearchService {
                                                     .should(matchPhraseByTitle)
                                                     .should(matchPhraseByDesc0)
                                                     .should(matchByName)
+                                                    .should(termByUsername)
                                                     .should(matchByStandardName)
                                                     .should(matchByDesc0)
                                                     .should(matchByDesc)
