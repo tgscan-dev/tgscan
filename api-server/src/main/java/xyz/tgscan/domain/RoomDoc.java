@@ -16,7 +16,7 @@ public class RoomDoc {
   @Id private String id;
 
   private String link;
-
+  private String userName;
   private String name;
   private String phraseName;
   private String standardName;
@@ -38,6 +38,8 @@ public class RoomDoc {
     roomDoc.setId(room.getLink());
     roomDoc.setPhraseName(room.getName());
     roomDoc.setStandardName(room.getName());
+    var split = room.getLink().split("/");
+    roomDoc.setUserName(split[split.length - 1]);
     roomDoc.setPhraseJhiDesc(room.getJhiDesc());
     roomDoc.setStandardJhiDesc(room.getJhiDesc());
     roomDoc.setLink(room.getLink());

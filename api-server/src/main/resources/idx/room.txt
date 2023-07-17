@@ -1,6 +1,6 @@
 
 
-PUT /room.0717
+PUT /room.0718
 {
   "settings": {
     "index": {
@@ -68,6 +68,9 @@ PUT /room.0717
         "type": "keyword"
       },
       "link": {
+        "type": "keyword"
+      },
+      "userName": {
         "type": "keyword"
       },
       "memberCnt": {
