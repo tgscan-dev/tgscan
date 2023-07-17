@@ -108,7 +108,11 @@ public class SearchService {
                             " ",
                             Optional.ofNullable(
                                     tgRoomDocHit.highlight().get(IdxConstant.ROOM_STANDARD_DESC))
-                                .orElse(List.of(source.get("jhiDesc").toString())));
+                                .orElse(
+                                    List.of(
+                                        Optional.ofNullable(source.get("jhiDesc"))
+                                            .orElse("")
+                                            .toString())));
                     return RoomDocDTO.fromTgRoomDoc(source, name, jhiDesc);
                   }
                   if (index.equals(IdxConstant.MESSAGE_IDX)) {

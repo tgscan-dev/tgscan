@@ -8,7 +8,6 @@ import pDebounce from 'p-debounce';
 import Resources from "./List";
 import PaginationCmpt from "./PaginationCmpt";
 import {UserContext} from "./App";
-import Footer from "./Footer";
 import {toast, ToastContainer} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -66,6 +65,19 @@ const Items = () => {
         setSelected(type2selected(type));
 
         debounceSearch(kw, page, type).then((res) => {
+            if (!res.doc) {
+                toast.error('Operation failed, please try again later.', {
+                    position: "bottom-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                });
+                return
+            }
             setItems(res.doc);
             setTotal(res.totalPage);
             user.loading = false;
@@ -87,7 +99,7 @@ const Items = () => {
 
     return (
         <div className="items">
-            <ToastContainer />
+            <ToastContainer/>
 
             <div className="head">
                 <div className="img">
