@@ -19,8 +19,10 @@ public class RoomDoc {
 
   private String name;
   private String phraseName;
+  private String standardName;
 
   private String jhiDesc;
+  private String standardJhiDesc;
   private String phraseJhiDesc;
 
   private Integer memberCnt;
@@ -35,7 +37,9 @@ public class RoomDoc {
     RoomDoc roomDoc = new RoomDoc();
     roomDoc.setId(room.getLink());
     roomDoc.setPhraseName(room.getName());
+    roomDoc.setStandardName(room.getName());
     roomDoc.setPhraseJhiDesc(room.getJhiDesc());
+    roomDoc.setStandardJhiDesc(room.getJhiDesc());
     roomDoc.setLink(room.getLink());
     roomDoc.setName(room.getName());
     roomDoc.setJhiDesc(room.getJhiDesc());

@@ -1,4 +1,6 @@
-PUT /room.0708
+
+
+PUT /room.0717
 {
   "settings": {
     "index": {
@@ -94,6 +96,16 @@ PUT /room.0708
         "type": "text",
         "analyzer": "phrase_index_analyzer",
         "search_analyzer": "search_analyzer"
+      },
+      "standardName": {
+        "type": "text",
+        "analyzer": "standard",
+        "search_analyzer": "standard"
+      },
+      "standardJhiDesc": {
+        "type": "text",
+        "analyzer": "standard",
+        "search_analyzer": "standard"
       },
       "phraseJhiDesc": {
         "type": "text",
