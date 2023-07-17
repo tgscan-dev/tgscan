@@ -252,7 +252,7 @@ public class RoomCrawlJob {
     }
     boolean isGroup = statiscs.contains("member");
     if (isGroup) {
-      String cnt = statiscs.split("members")[0].replaceAll(" ", "");
+      String cnt = statiscs.split("member")[0].replaceAll(" ", "");
       room.setMemberCnt(Integer.valueOf(cnt));
       room.setType("GROUP");
       var save = roomRepository.save(room);
