@@ -76,7 +76,7 @@ public class RoomCrawlJob {
 
   public static void main(String[] args) throws IOException {
     var roomCrawlJob = new RoomCrawlJob();
-    var url = "https://t.me/tgscan_dev";
+    var url = "https://t.me/yantai5899";
     var room = new Room().setLink(url);
     var room1 = room;
     roomCrawlJob.fetch(room1);
@@ -250,7 +250,7 @@ public class RoomCrawlJob {
       var save = roomRepository.save(room);
       roomDocRepository.save(RoomDoc.fromEntity(save));
     }
-    boolean isGroup = statiscs.contains("members");
+    boolean isGroup = statiscs.contains("member");
     if (isGroup) {
       String cnt = statiscs.split("members")[0].replaceAll(" ", "");
       room.setMemberCnt(Integer.valueOf(cnt));
