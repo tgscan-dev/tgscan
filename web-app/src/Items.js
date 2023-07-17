@@ -66,16 +66,6 @@ const Items = () => {
 
         debounceSearch(kw, page, type).then((res) => {
             if (!res.doc) {
-                toast.error('Operation failed, please try again later.', {
-                    position: "bottom-right",
-                    autoClose: 5000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "light",
-                });
                 return
             }
             setItems(res.doc);
