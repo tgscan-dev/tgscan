@@ -7,7 +7,6 @@ import co.elastic.clients.elasticsearch.core.SearchRequest;
 import co.elastic.clients.elasticsearch.core.search.SourceConfig;
 import co.elastic.clients.elasticsearch.core.search.SourceFilter;
 import co.elastic.clients.util.ObjectBuilder;
-import jakarta.annotation.PostConstruct;
 import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -26,7 +25,7 @@ public class ExportRoomFromESJob {
 
   @Autowired private RoomRepository roomRepository;
 
-  @PostConstruct
+//  @PostConstruct
   public void init() throws IOException {
     // Create a builder to build the search request
     Function<SearchRequest.Builder, ObjectBuilder<SearchRequest>> builder =
