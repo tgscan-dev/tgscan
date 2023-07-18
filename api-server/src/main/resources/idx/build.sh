@@ -14,6 +14,13 @@ curl -X 'POST' \
   -H 'accept: */*' \
   -d ''
 
+
+curl -X 'POST' \
+  'http://localhost:8080/internal/data-patch/enable' \
+  -H 'accept: */*' \
+  -d ''
+
+
 docker logs -f --tail 100 tgscan-api-server-1
 docker logs tgscan-api-server-1|grep fetch
 
