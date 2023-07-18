@@ -8,6 +8,12 @@ curl -X 'POST' \
   -H 'accept: */*' \
   -d ''
 
+curl -X 'POST' \
+  'http://localhost:8080/internal/crawler/disableRoomCrawler' \
+  -H 'accept: */*' \
+  -d ''
+
+
 
 curl -X 'POST' \
   'http://localhost:8080/internal/crawler/rescanRoom' \
