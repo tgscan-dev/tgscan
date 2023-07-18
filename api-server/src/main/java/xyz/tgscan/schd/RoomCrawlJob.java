@@ -365,6 +365,9 @@ public class RoomCrawlJob {
 
     int page = 0, size = 50;
     while (true) {
+      if (!enable) {
+        return;
+      }
       Page<Room> rooms = roomRepository.findByStatusOrderByIdAsc("NEW", PageRequest.of(page, size));
 
       submitCrawlTasks(rooms);
