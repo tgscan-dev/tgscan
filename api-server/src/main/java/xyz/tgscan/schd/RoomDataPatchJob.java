@@ -32,29 +32,29 @@ public class RoomDataPatchJob {
     }
 
     int page = 0;
-    while (true) {
+    while (enable) {
       var all = roomRepository.findAll(PageRequest.of(page, 10000));
 
       var duplicate =
-          all.stream().filter(x -> !x.getLink().equals(x.getLink().toLowerCase())).toList();
+              all.stream().filter(x -> !x.getLink().equals(x.getLink().toLowerCase())).toList();
 
       var dupLinks =
-          duplicate.stream().map(x -> x.getLink().toLowerCase()).collect(Collectors.toList());
+              duplicate.stream().map(x -> x.getLink().toLowerCase()).collect(Collectors.toList());
 
       var has =
-          roomRepository.findByLinkIn(dupLinks).stream()
-              .map(Room::getLink)
-              .collect(Collectors.toSet());
+              roomRepository.findByLinkIn(dupLinks).stream()
+                      .map(Room::getLink)
+                      .collect(Collectors.toSet());
 
       var toLower =
-          duplicate.stream()
-              .filter(x -> !has.contains(x.getLink().toLowerCase()))
-              .peek(x -> x.setLink(x.getLink().toLowerCase()))
-              .toList();
+              duplicate.stream()
+                      .filter(x -> !has.contains(x.getLink().toLowerCase()))
+                      .peek(x -> x.setLink(x.getLink().toLowerCase()))
+                      .toList();
       roomRepository.saveAll(toLower);
 
       var needRemove =
-          duplicate.stream().filter(x -> has.contains(x.getLink().toLowerCase())).toList();
+              duplicate.stream().filter(x -> has.contains(x.getLink().toLowerCase())).toList();
 
       roomRepository.deleteAll(needRemove);
 
