@@ -228,5 +228,4 @@ insert into offsets (chat_id, last_offset, crawl_link, room_name, link)
 values (1247353087, 0, true, 'Telegram links share ❤️', 'https://t.me/sharetglinks');
 insert into offsets (chat_id, last_offset, crawl_link, room_name, link)
 values (1332429530, 0, true, 'Telegram Group Links 🕊', 'https://t.me/grouplinks_1');
-insert into offsets (chat_id, last_offset, crawl_link, room_name, link)
 

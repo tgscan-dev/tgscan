@@ -103,7 +103,7 @@ async def main():
                 conn.close()
                 logging.info("Database connection closed.")
 
-                await asyncio.sleep(10)
+                await asyncio.sleep(20)
 
             except Exception as e:
                 logging.error(f"Error occurred: {e}")
