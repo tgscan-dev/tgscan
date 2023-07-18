@@ -76,7 +76,7 @@ public class RoomCrawlJob {
 
   public static void main(String[] args) throws IOException {
     var roomCrawlJob = new RoomCrawlJob();
-    var url = "https://t.me/gsdqj";
+    var url = "https://t.me/yantai5899";
     var room = new Room().setLink(url);
     var room1 = room;
     roomCrawlJob.fetch(room1);
@@ -177,6 +177,7 @@ public class RoomCrawlJob {
     }
   }
 
+
   private void fetch(Room room) {
     String s = download(room);
     try {
@@ -203,10 +204,16 @@ public class RoomCrawlJob {
             .get(0)
             .text();
     String desc =
-        doc.select(
-                "body > div.tgme_page_wrap > div.tgme_body_wrap > div > div.tgme_page_description")
-            .get(0)
-            .text();
+            null;
+    try {
+      desc = doc.select(
+              "body > div.tgme_page_wrap > div.tgme_body_wrap > div > div.tgme_page_description")
+          .get(0)
+          .text();
+    } catch (Exception e) {
+      log.error("desc parse err");
+    }
+    
     String statiscs =
         doc.select("body > div.tgme_page_wrap > div.tgme_body_wrap > div > div.tgme_page_extra")
             .get(0)
@@ -243,9 +250,9 @@ public class RoomCrawlJob {
       var save = roomRepository.save(room);
       roomDocRepository.save(RoomDoc.fromEntity(save));
     }
-    boolean isGroup = statiscs.contains("members");
+    boolean isGroup = statiscs.contains("member");
     if (isGroup) {
-      String cnt = statiscs.split("members")[0].replaceAll(" ", "");
+      String cnt = statiscs.split("member")[0].replaceAll(" ", "");
       room.setMemberCnt(Integer.valueOf(cnt));
       room.setType("GROUP");
       var save = roomRepository.save(room);

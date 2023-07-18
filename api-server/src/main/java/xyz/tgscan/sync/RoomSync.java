@@ -6,20 +6,17 @@ import co.elastic.clients.elasticsearch.core.bulk.BulkOperation;
 import com.google.common.collect.Lists;
 import java.io.IOException;
 import java.util.List;
-import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 import xyz.tgscan.domain.Room;
 import xyz.tgscan.domain.RoomDoc;
-import xyz.tgscan.repository.RoomRepository;
 
 @Slf4j
 @Component
 public abstract class RoomSync extends AbstractSync {
   protected String from = RoomSync.class.getSimpleName();
-  @Autowired private RoomRepository tgRoomRepository;
   @Autowired private ElasticsearchClient esClient;
 
 
