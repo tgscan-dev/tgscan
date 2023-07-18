@@ -177,7 +177,6 @@ public class RoomCrawlJob {
     }
   }
 
-
   private void fetch(Room room) {
     String s = download(room);
     try {
@@ -203,17 +202,17 @@ public class RoomCrawlJob {
                 "body > div.tgme_page_wrap > div.tgme_body_wrap > div > div.tgme_page_title > span")
             .get(0)
             .text();
-    String desc =
-            null;
+    String desc = null;
     try {
-      desc = doc.select(
-              "body > div.tgme_page_wrap > div.tgme_body_wrap > div > div.tgme_page_description")
-          .get(0)
-          .text();
+      desc =
+          doc.select(
+                  "body > div.tgme_page_wrap > div.tgme_body_wrap > div > div.tgme_page_description")
+              .get(0)
+              .text();
     } catch (Exception e) {
       log.error("desc parse err");
     }
-    
+
     String statiscs =
         doc.select("body > div.tgme_page_wrap > div.tgme_body_wrap > div > div.tgme_page_extra")
             .get(0)
@@ -242,10 +241,13 @@ public class RoomCrawlJob {
             log.debug("download img fail:{}", JSON.toJSONString(room), e);
           }
         });
-    boolean isChannel = statiscs.contains("subscribers");
+    boolean isChannel = statiscs.contains("subscriber");
     if (isChannel) {
-      String subscribers = statiscs.replaceAll("subscribers", "").replaceAll(" ", "");
+      String subscribers = statiscs.replaceAll("subscriber", "").replaceAll(" ", "");
       room.setType("CHANNEL");
+      if (subscribers.equals("no")) {
+        subscribers = "0";
+      }
       room.setMemberCnt(Integer.valueOf(subscribers));
       var save = roomRepository.save(room);
       roomDocRepository.save(RoomDoc.fromEntity(save));
