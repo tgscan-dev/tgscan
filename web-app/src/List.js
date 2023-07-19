@@ -107,9 +107,11 @@ function Resources({items, selected}) {
                             </a>
                             <div className={'tags'}>
                                 {
-                                    R.isNil(memberCnt) ? null :
+                                    (type === 'BOT' || R.isNil(memberCnt)) ? null :
                                         <Badge status="">
                                             {/*<img className={"icon"} src="/member_count.svg" alt=""/>*/}
+
+
                                             <span className={'cnt'}>
                                                 {memberCnt} {memberCnt > 1 ? "MBRS" : "MBR"}
                                             </span>
