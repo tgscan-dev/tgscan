@@ -1,7 +1,7 @@
 package xyz.tgscan.enums;
 
 public class IdxConstant {
-  public static final String ROOM_IDX = "room.0718";
+  public static final String ROOM_IDX = "room.0719";
   public static final String ROOM_NAME = "name";
   public static final String ROOM_USERNAME = "userName";
   public static final String ROOM_STANDARD_NAME = "standardName";
