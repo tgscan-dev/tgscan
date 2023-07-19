@@ -1,0 +1,4 @@
+psycopg2==2.9.6
+Telethon==1.28.2
+PySocks==1.7.1
+python-dotenv==1.0.0

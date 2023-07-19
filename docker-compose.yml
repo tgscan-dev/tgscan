@@ -16,10 +16,10 @@ services:
       SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
       SPRING_DATASOURCE_URL: ${SPRING_DATASOURCE_URL}
       SPRING_ELASTICSEARCH_URIS: ${SPRING_ELASTICSEARCH_URIS}
-  data-miner:
-    image: data-miner:v1.0.0
+  msg-scraper:
+    image: msg-scraper:v1.0.0
     build:
-      context: ./data-miner
+      context: ./msg-scraper
       dockerfile: Dockerfile
     network_mode: host
     restart: always
