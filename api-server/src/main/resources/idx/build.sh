@@ -1,5 +1,5 @@
 curl -X 'POST' \
-  'http://localhost:8080/internal/sync/fullSync4room?idx=room.0718' \
+  'http://localhost:8080/internal/sync/fullSync4room?idx=room.0719' \
   -H 'accept: */*' \
   -d ''
 
