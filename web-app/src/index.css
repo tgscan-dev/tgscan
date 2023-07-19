@@ -117,7 +117,9 @@ body {
 .items .results .tabs {
     width: 800px !important;
 }
-
+.Polaris-Box {
+    border: none !important;
+}
 .items .head .input > div {
     width: 700px !important;
     margin: 0 auto;
