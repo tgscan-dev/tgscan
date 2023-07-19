@@ -120,6 +120,7 @@ body {
 
 .items .head .input > div {
     width: 700px !important;
+    margin: 0 auto;
 }
 
 
@@ -233,12 +234,12 @@ body {
     }
 
     #PolarisComboboxTextField2 {
-        width: 300px;
+        width: 100%;
         height: 35px !important;
     }
 
     #PolarisComboboxTextField2 input {
-        width: 300px;
+        width: 100%;
         height: 35px !important;
     }
 
@@ -289,7 +290,9 @@ body {
     }
 
     .items .head .input > div {
-        width: 360px !important;
+        /*width: 300px !important;*/
+        width: 100% !important;
+
     }
 
 
