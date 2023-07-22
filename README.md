@@ -49,6 +49,7 @@
 - Fast search results
 - Intuitive search interface
 - Ability to search chat history
+- Text Classification for Groups, Channels and Bots
 - Near-real-time indexing for up-to-date search results
 
 ## How To Use
@@ -59,6 +60,7 @@ To get started, visit [setup.md](setup.md) for detailed setup instructions.
 
 This software uses the following open source packages:
 
+- [Langchain](https://github.com/hwchase17/langchain)
 - [HanLP](https://github.com/hankcs/HanLP)
 - [React](https://github.com/facebook/react)
 - [Ramda](https://github.com/ramda/ramda)

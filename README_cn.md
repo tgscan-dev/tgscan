@@ -46,6 +46,7 @@
 - 快速的搜索结果
 - 直观的搜索界面
 - 搜索聊天记录的能力
+- 群组，频道和机器人文本分类
 - 近实时索引以获取最新的搜索结果
 
 ## 使用方法
@@ -56,6 +57,7 @@
 
 该软件使用了以下开源软件包：
 
+- [Langchain](https://github.com/hwchase17/langchain)
 - [HanLP](https://github.com/hankcs/HanLP)
 - [React](https://github.com/facebook/react)
 - [Ramda](https://github.com/ramda/ramda)
