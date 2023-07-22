@@ -33,7 +33,6 @@ api_id = int(os.environ.get("API_ID"))
 api_hash = os.environ.get("API_HASH")
 phone = os.environ.get("PHONE")
 
-
 proxy = (socks.SOCKS5, 'localhost', 4781, True, 'log', 'pass')
 
 client = TelegramClient(phone, api_id, api_hash, proxy=proxy)
@@ -46,7 +45,9 @@ class BotExtra:
 
 
 class Room:
-    def __init__(self, room_id, username, name, jhi_desc, member_cnt, type, status, msg_cnt, extra, lang, tags, link):
+    def __init__(self, room_id, username, name, jhi_desc, member_cnt, type, status, msg_cnt, extra, lang, tags, link,
+                 id):
+        self.id = id
         self.room_id = room_id
         self.user_name = username
         self.link = link
@@ -74,18 +75,20 @@ async def main():
     # bot_ = await parse_rooms(bot)
     # return
     conn = psycopg2.connect(database=database, user=user, password=password, host=host, port=port)
-    page = 0
     size = 10
 
     while True:
 
-        logging.info(f"start craw page {page}")
+        # logging.info(f"start craw page {page}")
         cursor = conn.cursor()
-        cursor.execute("""select link,lang,tags
+        fetch_sql = """select link,lang,tags,id
                             from room
-                            order by id
-                            limit %s offset %s; ;""", (size, page * size))
+                            where msg_cnt is null 
+                            limit """ + str(size)
+        logging.info("fetch sql: %s", fetch_sql)
+        cursor.execute(fetch_sql)
         all = cursor.fetchall()
+        logging.info("all: %s", all)
         if len(all) == 0:
             break
 
@@ -94,51 +97,65 @@ async def main():
             username = link.split("/")[-1]
             lang = item[1]
             tags = item[2]
+            id = item[3]
 
-            # -1001340684391
-            # https: // t.me / tgcnx
-            rooms = None
             try:
-                rooms = await parse_rooms(username, link, lang, tags)
+                (db_room, new_bots) = await parse_rooms(username, link, lang, tags, id)
 
             except BaseException as e:
+                db_room = Room(id=id, username=username, link=link, msg_cnt=0, room_id=None, name=None, jhi_desc=None,
+                               member_cnt=None, type=None, status=None, extra=None, lang=None, tags=None)
+                await save2db(cursor, db_room, [])
                 logging.warning(f"not exist username: {username}")
                 continue
 
-            sql = """
-                                            insert into room_v2 (room_id, username, name, jhi_desc, member_cnt, msg_cnt, type, status, collected_at, lang, tags, extra, link)
-                                            values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,%s)
-                                            on conflict(room_id)
-                                            DO UPDATE SET
-                                                member_cnt = EXCLUDED.member_cnt,
-                                                msg_cnt = EXCLUDED.msg_cnt
-                                        """
+            await save2db(cursor, db_room, new_bots)
 
-            try:
-                values = [
-                    (room.room_id, room.user_name, room.name, room.jhi_desc, room.member_cnt, room.msg_cnt, room.type,
-                     room.status, None, room.lang, room.tags, room.extra,room.link) for room in rooms]
-
-                cursor.executemany(sql, values)
-            except Exception as e:
-                logging.error(f"Error occurred: {e}")
-                pass
-
-        cursor.close()
         conn.commit()
-        logging.info(f"end craw page {page}")
-        page = page + 1
+        cursor.close()
 
     conn.close()
 
 
-async def parse_rooms(username, link, lang, tags):
+async def save2db(cursor, db_room, new_bots):
+    db_room_sql = """
+            update room
+            set msg_cnt = %s,
+                username=%s,
+                room_id=%s,
+                extra=%s
+            where id =%s;
+"""
+    cursor.execute(db_room_sql, (db_room.msg_cnt, db_room.user_name, db_room.room_id, db_room.extra, db_room.id))
+    if len(new_bots) > 0:
+        bots_sql = """
+                                                insert into room_v2 (room_id, username, name, jhi_desc, member_cnt, msg_cnt, type, status, collected_at, lang, tags, extra, link)
+                                                values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,%s)
+                                                on conflict(room_id)
+                                                DO UPDATE SET
+                                                    member_cnt = EXCLUDED.member_cnt,
+                                                    msg_cnt = EXCLUDED.msg_cnt
+                                            """
+
+        try:
+            values = [
+                (room.room_id, room.user_name, room.name, room.jhi_desc, room.member_cnt, room.msg_cnt,
+                 room.type,
+                 room.status, None, room.lang, room.tags, room.extra, room.link) for room in new_bots]
+
+            cursor.executemany(bots_sql, values)
+        except Exception as e:
+            logging.error(f"Error occurred: {e}")
+            pass
+
+
+async def parse_rooms(username, link, lang, tags, id) -> (Room, list[Room]):
     entity = await client.get_entity(username)
     room_type = get_room_type(entity)
     if room_type == "BOT":
-        return [
+        return (
             Room("BOT#" + str(entity.id), username, entity.first_name, None, 0, "BOT", "NEW", None, None, lang, tags,
-                 link)]
+                 link, id), [])
 
     if room_type == "CHANNEL" or room_type == "GROUP":
         full_chat = await client(functions.channels.GetFullChannelRequest(entity))
@@ -147,9 +164,9 @@ async def parse_rooms(username, link, lang, tags):
         messages = await client.get_messages(entity, limit=0)
         room = Room(room_type + "#" + str(entity.id), username, entity.title, about, members_count, room_type,
                     "COLLECTED", messages.total,
-                    None, lang, tags, link)
-        rooms = []
-        rooms.append(room)
+                    None, lang, tags, link, id)
+
+        bots = []
         user_map = {}
         for user in full_chat.users:
             user_map[user.id] = user
@@ -157,11 +174,12 @@ async def parse_rooms(username, link, lang, tags):
             bot_user_id = bot.user_id
             bot_user = user_map[bot_user_id]
             if bot_user is not None:
-                room0 = Room("BOT#" + str(bot_user_id), bot_user.username, bot_user.first_name, bot.description, 0, "BOT",
+                room0 = Room("BOT#" + str(bot_user_id), bot_user.username, bot_user.first_name, bot.description, 0,
+                             "BOT",
                              "COLLECTED", 0, json.dumps(BotExtra(bot.commands), default=lambda x: x.__dict__), None,
-                             None, "https://t.me/" + username)
-                rooms.append(room0)
-        return rooms
+                             None, "https://t.me/" + username, None)
+                bots.append(room0)
+        return room, bots
 
 
 def get_room_type(entity):
