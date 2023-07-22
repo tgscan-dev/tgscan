@@ -11,8 +11,6 @@
 </p>
 <h4 align="center">Streamline Your Telegram Searches: Find Channels, Groups, and Chat History Effortlessly.</h4>
 
-
-
 <h4 align="center">
   <a href="https://github.com/tgscan-dev/tgscan/actions/workflows/main.yml">
     <img src="https://img.shields.io/github/actions/workflow/status/tgscan-dev/tgscan/main.yml?branch=main&label=pipeline&style=flat-square" alt="continuous integration">

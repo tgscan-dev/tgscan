@@ -10,17 +10,14 @@
 </p>
 <h4 align="center">简化Telegram搜索：轻松找到频道、群组和聊天记录。</h4>
 
-
 <h4 align="center">
   <a href="https://github.com/tgscan-dev/tgscan/actions/workflows/main.yml">
     <img src="https://img.shields.io/github/actions/workflow/status/tgscan-dev/tgscan/main.yml?branch=main&label=pipeline&style=flat-square" alt="连续集成">
   </a>
 
-
   <a href="https://github.com/tgscan-dev/tgscan/graphs/contributors">
     <img src="https://img.shields.io/github/contributors-anon/tgscan-dev/tgscan?color=yellow&style=flat-square" alt="贡献者">
   </a>
-
 
   <a href="https://www.gnu.org/licenses/gpl-3.0)">
     <img src="https://img.shields.io/badge/License-GPLv3-blue.svg?style=flat-square" alt="许可证">
@@ -67,7 +64,7 @@
 
 欢迎提交代码或需要索引的任何频道。
 
-## LICENSE
+## 许可证
 
 该项目以GNU许可证发布。有关详情，请参阅 [LICENSE](LICENSE) 文件。
 
