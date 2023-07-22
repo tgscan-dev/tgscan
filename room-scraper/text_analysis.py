@@ -31,22 +31,17 @@ class TelegramGroup(BaseModel):
 
 
 def calc_group(name: str, desc: str) -> TelegramGroup:
-    template = "你是一个聪明的电报文本语种识别和分类工具，根据电报群名称和描述，返回其语种和标签，标签可选范围有：Blogs,News and media,Humor and entertainment,Technologies,Economics,Business and startups,Cryptocurrencies,Travel,Marketing, PR, advertising,Psychology,Design,Politics,Art,Law,Education,Books,Linguistics,Career,Edutainment,Courses and guides,Sport,Fashion and beauty,Medicine,Health and Fitness,Pictures and photos,Software & Applications,Video and films,Music,Games,Food and cooking,Quotes,Handiwork,Family & Children,Nature,Interior and construction,Telegram,Instagram,Sales,Transport,Religion,Esoterics,Darknet,Bookmaking,Shock content,Erotic,Adult,Other 。用英文回复."
+    template = "你是一个聪明的电报文本语种识别和分类工具，根据电报群名称和描述，返回其语种和标签。语种返回英文单词，不要缩写，比如Chinese，English等；标签可选范围有：Blogs,News and media,Humor and entertainment,Technologies,Economics,Business and startups,Cryptocurrencies,Travel,Marketing, PR, advertising,Psychology,Design,Politics,Art,Law,Education,Books,Linguistics,Career,Edutainment,Courses and guides,Sport,Fashion and beauty,Medicine,Health and Fitness,Pictures and photos,Software & Applications,Video and films,Music,Games,Food and cooking,Quotes,Handiwork,Family & Children,Nature,Interior and construction,Telegram,Instagram,Sales,Transport,Religion,Esoterics,Darknet,Bookmaking,Shock content,Erotic,Adult,Other 。用英文回复."
     system_message_prompt = SystemMessagePromptTemplate.from_template(template)
     parser = PydanticOutputParser(pydantic_object=TelegramGroup)
 
-    prompt = PromptTemplate(
-        template="Answer the user query.\n{format_instructions}\n{query}\n",
-        input_variables=["query"],
-        partial_variables={"format_instructions": parser.get_format_instructions()}
-    )
     human_message_prompt = HumanMessagePromptTemplate.from_template(
         "Answer the user query.\n{format_instructions}\ngroup name:{name}, group description:{desc}\n")
 
     chat_prompt = ChatPromptTemplate.from_messages(
         [system_message_prompt, human_message_prompt]
     )
-    llm = ChatOpenAI(temperature=0.0)
+    llm = ChatOpenAI(temperature=0.0, request_timeout=30)
     chain = LLMChain(llm=llm, prompt=chat_prompt)
     autofix_parser = OutputFixingParser.from_llm(parser=parser, llm=llm)
     output = chain.run({'format_instructions': parser.get_format_instructions(), 'name': name, 'desc': desc})
@@ -89,7 +84,7 @@ def fetch_and_save_tg_group(id, name, desc, cursor):
 if __name__ == '__main__':
     conn = psycopg2.connect(database=database, user=user, password=password, host=host, port=port)
     page = 0
-    size = 10
+    size = 50
 
     while True:
 
@@ -116,7 +111,7 @@ if __name__ == '__main__':
             t.start()
 
         for t in threads:
-            t.join()
+            t.join(timeout=30)
 
         cursor.close()
         conn.commit()
