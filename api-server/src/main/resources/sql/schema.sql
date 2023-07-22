@@ -16,6 +16,27 @@ create table if not exists room
 alter table room
     owner to demo;
 
+create table room_v2
+(
+    id           serial
+        primary key,
+    room_id      varchar(255) unique,
+    link         varchar(255) not null,
+    name         varchar(255),
+    jhi_desc     text,
+    member_cnt   integer,
+    msg_cnt      integer,
+    type         varchar(255),
+    status       varchar(255) not null,
+    collected_at timestamp,
+    lang         varchar(255),
+    tags         varchar(1024),
+    extra        text
+);
+
+alter table room_v2
+    owner to demo;
+
 create table if not exists message
 (
     "offset"  bigint not null,
