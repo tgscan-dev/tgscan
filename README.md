@@ -60,7 +60,7 @@ To get started, visit [setup.md](setup.md) for detailed setup instructions.
 
 This software uses the following open source packages:
 
-- [Langchain](https://github.com/hwchase17/langchain)
+- [LangChain](https://github.com/hwchase17/langchain)
 - [HanLP](https://github.com/hankcs/HanLP)
 - [React](https://github.com/facebook/react)
 - [Ramda](https://github.com/ramda/ramda)

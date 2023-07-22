@@ -57,7 +57,7 @@
 
 该软件使用了以下开源软件包：
 
-- [Langchain](https://github.com/hwchase17/langchain)
+- [LangChain](https://github.com/hwchase17/langchain)
 - [HanLP](https://github.com/hankcs/HanLP)
 - [React](https://github.com/facebook/react)
 - [Ramda](https://github.com/ramda/ramda)
