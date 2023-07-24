@@ -17,12 +17,15 @@ from langchain.prompts import (
 )
 from pydantic import BaseModel, Field
 import concurrent.futures
+from langchain.cache import InMemoryCache
 
 langchain.debug = False
 # langchain.verbose = True
 
-openai.api_base = "https://api.chatanywhere.cn/v1"
+openai.api_base = "http://127.0.0.1:1337"
+
 load_dotenv()
+langchain.cache = InMemoryCache()
 
 
 class TelegramGroup(BaseModel):
@@ -31,7 +34,7 @@ class TelegramGroup(BaseModel):
 
 
 def calc_group(name: str, desc: str) -> TelegramGroup:
-    template = "你是一个聪明的电报文本语种识别和分类工具，根据电报群名称和描述，返回其语种和标签。语种返回英文单词，不要缩写，比如Chinese，English等；标签可选范围有：Blogs,News and media,Humor and entertainment,Technologies,Economics,Business and startups,Cryptocurrencies,Travel,Marketing, PR, advertising,Psychology,Design,Politics,Art,Law,Education,Books,Linguistics,Career,Edutainment,Courses and guides,Sport,Fashion and beauty,Medicine,Health and Fitness,Pictures and photos,Software & Applications,Video and films,Music,Games,Food and cooking,Quotes,Handiwork,Family & Children,Nature,Interior and construction,Telegram,Instagram,Sales,Transport,Religion,Esoterics,Darknet,Bookmaking,Shock content,Erotic,Adult,Other 。用英文回复."
+    template = "你是一个聪明的电报文本语种识别和分类工具，根据电报群名称和描述，返回其语种和标签。语种返回英文单词，不要缩写，比如Chinese，English等；标签可选范围只有：Blogs,News and media,Humor and entertainment,Technologies,Economics,Business and startups,Cryptocurrencies,Travel,Marketing, PR, advertising,Psychology,Design,Politics,Art,Law,Education,Books,Linguistics,Career,Edutainment,Courses and guides,Sport,Fashion and beauty,Medicine,Health and Fitness,Pictures and photos,Software & Applications,Video and films,Music,Games,Food and cooking,Quotes,Handiwork,Family & Children,Nature,Interior and construction,Telegram,Instagram,Sales,Transport,Religion,Esoterics,Darknet,Bookmaking,Shock content,Erotic,Adult,Other 。用英文回复."
     system_message_prompt = SystemMessagePromptTemplate.from_template(template)
     parser = PydanticOutputParser(pydantic_object=TelegramGroup)
 
