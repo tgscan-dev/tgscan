@@ -102,7 +102,7 @@ async def main():
             try:
                 (db_room, new_bots) = await parse_rooms(username, link, lang, tags, id)
 
-            except object as e:
+            except BaseException as e:
                 db_room = Room(id=id, username=username, link=link, msg_cnt=0, room_id=None, name=None, jhi_desc=None,
                                member_cnt=None, type=None, status=None, extra=None, lang=None, tags=None)
                 await save2db(cursor, db_room, [])
