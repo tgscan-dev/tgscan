@@ -1,6 +1,7 @@
 import logging
 import os
 import threading
+from json import JSONDecodeError
 from typing import List
 import psycopg2
 import langchain
@@ -15,14 +16,15 @@ from langchain.prompts import (
     SystemMessagePromptTemplate,
     HumanMessagePromptTemplate,
 )
+from langchain.schema import OutputParserException
 from pydantic import BaseModel, Field
 import concurrent.futures
 from langchain.cache import InMemoryCache
 
 langchain.debug = False
 # langchain.verbose = True
-
-openai.api_base = "http://127.0.0.1:1337"
+openai.api_key = "sk-123"
+openai.api_base = "http://localhost:9998"
 
 load_dotenv()
 langchain.cache = InMemoryCache()
@@ -34,7 +36,7 @@ class TelegramGroup(BaseModel):
 
 
 def calc_group(name: str, desc: str) -> TelegramGroup:
-    template = "你是一个聪明的电报文本语种识别和分类工具，根据电报群名称和描述，返回其语种和标签。语种返回英文单词，不要缩写，比如Chinese，English等；标签可选范围只有：Blogs,News and media,Humor and entertainment,Technologies,Economics,Business and startups,Cryptocurrencies,Travel,Marketing, PR, advertising,Psychology,Design,Politics,Art,Law,Education,Books,Linguistics,Career,Edutainment,Courses and guides,Sport,Fashion and beauty,Medicine,Health and Fitness,Pictures and photos,Software & Applications,Video and films,Music,Games,Food and cooking,Quotes,Handiwork,Family & Children,Nature,Interior and construction,Telegram,Instagram,Sales,Transport,Religion,Esoterics,Darknet,Bookmaking,Shock content,Erotic,Adult,Other 。用英文回复."
+    template = "你是一个聪明的电报文本语种识别和分类工具，根据电报群名称和描述，返回其语种和标签。语种返回英文单词，不要缩写，比如Chinese，English等；标签最多选3个，标签可选范围只有：Blogs,News and media,Humor and entertainment,Technologies,Economics,Business and startups,Cryptocurrencies,Travel,Marketing, PR, advertising,Psychology,Design,Politics,Art,Law,Education,Books,Linguistics,Career,Edutainment,Courses and guides,Sport,Fashion and beauty,Medicine,Health and Fitness,Pictures and photos,Software & Applications,Video and films,Music,Games,Food and cooking,Quotes,Handiwork,Family & Children,Nature,Interior and construction,Telegram,Instagram,Sales,Transport,Religion,Esoterics,Darknet,Bookmaking,Shock content,Erotic,Adult,Other 。用英文回复."
     system_message_prompt = SystemMessagePromptTemplate.from_template(template)
     parser = PydanticOutputParser(pydantic_object=TelegramGroup)
 
@@ -44,7 +46,7 @@ def calc_group(name: str, desc: str) -> TelegramGroup:
     chat_prompt = ChatPromptTemplate.from_messages(
         [system_message_prompt, human_message_prompt]
     )
-    llm = ChatOpenAI(temperature=0.0, request_timeout=30)
+    llm = ChatOpenAI(temperature=0.0, request_timeout=40)
     chain = LLMChain(llm=llm, prompt=chat_prompt)
     autofix_parser = OutputFixingParser.from_llm(parser=parser, llm=llm)
     output = chain.run({'format_instructions': parser.get_format_instructions(), 'name': name, 'desc': desc})
@@ -61,11 +63,16 @@ port = os.environ.get("PG_PORT")
 
 
 def fetch_and_save_tg_group(id, name, desc, cursor):
-    try:
-        group = calc_group(name, desc)
-    except Exception as e:
-        logging.error("calc_group err", e)
-        return
+    group = None
+    while True:
+        try:
+            group = calc_group(name, desc)
+            break
+        except (JSONDecodeError, OutputParserException) as e:
+            logging.error("calc_group parse err, will retry once")
+        except Exception as e:
+            logging.error("calc_group err", e)
+            break
     logging.info(name + ": " + group.__str__())
 
     sql = """
@@ -87,7 +94,7 @@ def fetch_and_save_tg_group(id, name, desc, cursor):
 if __name__ == '__main__':
     conn = psycopg2.connect(database=database, user=user, password=password, host=host, port=port)
     page = 0
-    size = 50
+    size = 200
 
     while True:
 

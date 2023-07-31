@@ -102,7 +102,7 @@ async def main():
             try:
                 (db_room, new_bots) = await parse_rooms(username, link, lang, tags, id)
 
-            except BaseException as e:
+            except object as e:
                 db_room = Room(id=id, username=username, link=link, msg_cnt=0, room_id=None, name=None, jhi_desc=None,
                                member_cnt=None, type=None, status=None, extra=None, lang=None, tags=None)
                 await save2db(cursor, db_room, [])
@@ -129,7 +129,7 @@ async def save2db(cursor, db_room, new_bots):
     cursor.execute(db_room_sql, (db_room.msg_cnt, db_room.user_name, db_room.room_id, db_room.extra, db_room.id))
     if len(new_bots) > 0:
         bots_sql = """
-                                                insert into room_v2 (room_id, username, name, jhi_desc, member_cnt, msg_cnt, type, status, collected_at, lang, tags, extra, link)
+                                                insert into room (room_id, username, name, jhi_desc, member_cnt, msg_cnt, type, status, collected_at, lang, tags, extra, link)
                                                 values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,%s)
                                                 on conflict(room_id)
                                                 DO UPDATE SET
