@@ -35,7 +35,8 @@ phone = os.environ.get("PHONE")
 
 proxy = (socks.SOCKS5, 'localhost', 4781, True, 'log', 'pass')
 
-client = TelegramClient(phone, api_id, api_hash, proxy=proxy)
+# client = TelegramClient(phone, api_id, api_hash, proxy=proxy)
+client = TelegramClient(phone, api_id, api_hash)
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 
@@ -79,40 +80,44 @@ async def main():
 
     while True:
 
-        # logging.info(f"start craw page {page}")
-        cursor = conn.cursor()
-        fetch_sql = """select link,lang,tags,id
-                            from room
-                            where msg_cnt is null 
-                            limit """ + str(size)
-        logging.info("fetch sql: %s", fetch_sql)
-        cursor.execute(fetch_sql)
-        all = cursor.fetchall()
-        logging.info("all: %s", all)
-        if len(all) == 0:
-            break
+        try:
+            # logging.info(f"start craw page {page}")
+            cursor = conn.cursor()
+            fetch_sql = """select link,lang,tags,id
+                                from room
+                                where msg_cnt is null 
+                                limit """ + str(size)
+            logging.info("fetch sql: %s", fetch_sql)
+            cursor.execute(fetch_sql)
+            all = cursor.fetchall()
+            logging.info("all: %s", all)
+            if len(all) == 0:
+                break
 
-        for item in all:
-            link = item[0]
-            username = link.split("/")[-1]
-            lang = item[1]
-            tags = item[2]
-            id = item[3]
+            for item in all:
+                link = item[0]
+                username = link.split("/")[-1]
+                lang = item[1]
+                tags = item[2]
+                id = item[3]
 
-            try:
-                (db_room, new_bots) = await parse_rooms(username, link, lang, tags, id)
+                try:
+                    (db_room, new_bots) = await parse_rooms(username, link, lang, tags, id)
 
-            except BaseException as e:
-                db_room = Room(id=id, username=username, link=link, msg_cnt=0, room_id=None, name=None, jhi_desc=None,
-                               member_cnt=None, type=None, status=None, extra=None, lang=None, tags=None)
-                await save2db(cursor, db_room, [])
-                logging.warning(f"not exist username: {username}")
-                continue
+                except BaseException as e:
+                    db_room = Room(id=id, username=username, link=link, msg_cnt=0, room_id=None, name=None, jhi_desc=None,
+                                   member_cnt=None, type=None, status=None, extra=None, lang=None, tags=None)
+                    await save2db(cursor, db_room, [])
+                    logging.warning(f"not exist username: {username}")
+                    continue
 
-            await save2db(cursor, db_room, new_bots)
+                await save2db(cursor, db_room, new_bots)
 
-        conn.commit()
-        cursor.close()
+            conn.commit()
+            cursor.close()
+        except:
+            logging.error("error occurred")
+            pass
 
     conn.close()
 

@@ -46,7 +46,7 @@ def calc_group(name: str, desc: str) -> TelegramGroup:
     chat_prompt = ChatPromptTemplate.from_messages(
         [system_message_prompt, human_message_prompt]
     )
-    llm = ChatOpenAI(temperature=0.0, request_timeout=40)
+    llm = ChatOpenAI(temperature=0.0, request_timeout=20)
     chain = LLMChain(llm=llm, prompt=chat_prompt)
     autofix_parser = OutputFixingParser.from_llm(parser=parser, llm=llm)
     output = chain.run({'format_instructions': parser.get_format_instructions(), 'name': name, 'desc': desc})
@@ -94,38 +94,42 @@ def fetch_and_save_tg_group(id, name, desc, cursor):
 if __name__ == '__main__':
     conn = psycopg2.connect(database=database, user=user, password=password, host=host, port=port)
     page = 0
-    size = 200
+    size = 300
 
     while True:
 
-        logging.info(f"start calc page {page}")
-        cursor = conn.cursor()
-        cursor.execute("""select id,name,jhi_desc 
-                            from room
-                            where lang isnull 
-                            order by id
-                            limit %s offset %s; ;""", (size, page * size))
-        all = cursor.fetchall()
-        if len(all) == 0:
-            break
+        try:
+            logging.info(f"start calc page {page}")
+            cursor = conn.cursor()
+            cursor.execute("""select id,name,jhi_desc 
+                                from room
+                                where lang isnull 
+                                order by id
+                                limit %s offset %s; ;""", (size, page * size))
+            all = cursor.fetchall()
+            if len(all) == 0:
+                break
 
-        threads = []
+            threads = []
 
-        for item in all:
-            id = item[0]
-            name = item[1]
-            desc = item[2]
+            for item in all:
+                id = item[0]
+                name = item[1]
+                desc = item[2]
 
-            t = threading.Thread(target=fetch_and_save_tg_group, args=(id, name, desc, cursor))
-            threads.append(t)
-            t.start()
+                t = threading.Thread(target=fetch_and_save_tg_group, args=(id, name, desc, cursor))
+                threads.append(t)
+                t.start()
 
-        for t in threads:
-            t.join(timeout=30)
+            for t in threads:
+                t.join()
 
-        cursor.close()
-        conn.commit()
-        logging.info(f"end calc page {page}")
-        page = page + 1
+            cursor.close()
+            conn.commit()
+            logging.info(f"end calc page {page}")
+            page = page + 1
+        except:
+            logging.error("error occurred, will retry")
+            pass
 
     conn.close()
