@@ -72,8 +72,8 @@ async def get_group_members(group_id):
 
 
 async def main():
-    # bot = "rabbitolddriver"
-    # bot_ = await parse_rooms(bot)
+    # bot = "qwt0090"
+    # bot_ = await parse_rooms(bot, None, None, None, None)
     # return
     conn = psycopg2.connect(database=database, user=user, password=password, host=host, port=port)
     size = 10
@@ -105,7 +105,8 @@ async def main():
                     (db_room, new_bots) = await parse_rooms(username, link, lang, tags, id)
 
                 except BaseException as e:
-                    db_room = Room(id=id, username=username, link=link, msg_cnt=0, room_id=None, name=None, jhi_desc=None,
+                    db_room = Room(id=id, username=username, link=link, msg_cnt=0, room_id=None, name=None,
+                                   jhi_desc=None,
                                    member_cnt=None, type=None, status=None, extra=None, lang=None, tags=None)
                     await save2db(cursor, db_room, [])
                     logging.warning(f"not exist username: {username}")
@@ -179,10 +180,11 @@ async def parse_rooms(username, link, lang, tags, id) -> (Room, list[Room]):
             bot_user_id = bot.user_id
             bot_user = user_map[bot_user_id]
             if bot_user is not None:
-                room0 = Room("BOT#" + str(bot_user_id), bot_user.username, bot_user.first_name, bot.description, 0,
+                bot_user_username = bot_user.username
+                room0 = Room("BOT#" + str(bot_user_id), bot_user_username, bot_user.first_name, bot.description, 0,
                              "BOT",
                              "COLLECTED", 0, json.dumps(BotExtra(bot.commands), default=lambda x: x.__dict__), None,
-                             None, "https://t.me/" + username, None)
+                             None, "https://t.me/" + bot_user_username, None)
                 bots.append(room0)
         return room, bots
 
