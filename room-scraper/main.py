@@ -111,10 +111,10 @@ async def main():
                     time.sleep(e.seconds + 1)
                     continue
                 except BaseException as e:
-                    # db_room = Room(id=id, username=username, link=link, msg_cnt=0, room_id=None, name=None,
-                    #                jhi_desc=None,
-                    #                member_cnt=None, type=None, status=None, extra=None, lang=None, tags=None)
-                    # await save2db(cursor, db_room, [])
+                    db_room = Room(id=id, username=username, link=link, msg_cnt=0, room_id=None, name=None,
+                                   jhi_desc=None,
+                                   member_cnt=None, type=None, status=None, extra=None, lang=None, tags=None)
+                    await save2db(cursor, db_room, [])
                     logging.warning(f"fetch username: {username} err {e}")
                     time.sleep(2)
 
