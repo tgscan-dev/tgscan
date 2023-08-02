@@ -1,11 +1,13 @@
 import json
 import logging
 import os
+import time
 
 import psycopg2
 import socks
 from dotenv import load_dotenv
 from telethon import TelegramClient, functions
+from telethon.errors import FloodWaitError
 from telethon.tl.functions.messages import GetFullChatRequest
 from telethon.tl.types import User, Channel, Chat
 
@@ -72,7 +74,7 @@ async def get_group_members(group_id):
 
 
 async def main():
-    # bot = "qwt0090"
+    # bot = "austrianschool"
     # bot_ = await parse_rooms(bot, None, None, None, None)
     # return
     conn = psycopg2.connect(database=database, user=user, password=password, host=host, port=port)
@@ -104,18 +106,25 @@ async def main():
                 try:
                     (db_room, new_bots) = await parse_rooms(username, link, lang, tags, id)
 
+                except FloodWaitError as e:
+                    logging.warning(f"FloodWaitError! username: {username} err {e}")
+                    time.sleep(e.seconds + 1)
+                    continue
                 except BaseException as e:
-                    db_room = Room(id=id, username=username, link=link, msg_cnt=0, room_id=None, name=None,
-                                   jhi_desc=None,
-                                   member_cnt=None, type=None, status=None, extra=None, lang=None, tags=None)
-                    await save2db(cursor, db_room, [])
-                    logging.warning(f"not exist username: {username}")
+                    # db_room = Room(id=id, username=username, link=link, msg_cnt=0, room_id=None, name=None,
+                    #                jhi_desc=None,
+                    #                member_cnt=None, type=None, status=None, extra=None, lang=None, tags=None)
+                    # await save2db(cursor, db_room, [])
+                    logging.warning(f"fetch username: {username} err {e}")
+                    time.sleep(2)
+
                     continue
 
                 await save2db(cursor, db_room, new_bots)
 
             conn.commit()
             cursor.close()
+            time.sleep(2)
         except:
             logging.error("error occurred")
             pass
