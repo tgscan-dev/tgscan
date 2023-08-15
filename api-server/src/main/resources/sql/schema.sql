@@ -16,7 +16,7 @@ create table if not exists room
 alter table room
     owner to demo;
 
-create table room_v2
+create table if not exists room_v2
 (
     id           serial
         primary key,

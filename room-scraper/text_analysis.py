@@ -24,7 +24,7 @@ from langchain.cache import InMemoryCache
 langchain.debug = False
 # langchain.verbose = True
 openai.api_key = "sk-123"
-openai.api_base = "http://localhost:9998"
+openai.api_base = 'http://127.0.0.1:9998/v1'
 
 load_dotenv()
 langchain.cache = InMemoryCache()
@@ -46,7 +46,7 @@ def calc_group(name: str, desc: str) -> TelegramGroup:
     chat_prompt = ChatPromptTemplate.from_messages(
         [system_message_prompt, human_message_prompt]
     )
-    llm = ChatOpenAI(temperature=0.0, request_timeout=20)
+    llm = ChatOpenAI(temperature=0.0, request_timeout=30)
     chain = LLMChain(llm=llm, prompt=chat_prompt)
     autofix_parser = OutputFixingParser.from_llm(parser=parser, llm=llm)
     output = chain.run({'format_instructions': parser.get_format_instructions(), 'name': name, 'desc': desc})
@@ -94,7 +94,7 @@ def fetch_and_save_tg_group(id, name, desc, cursor):
 if __name__ == '__main__':
     conn = psycopg2.connect(database=database, user=user, password=password, host=host, port=port)
     page = 0
-    size = 300
+    size = 10
 
     while True:
 
