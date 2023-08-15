@@ -76,7 +76,7 @@ public class RoomCrawlJob {
 
   public static void main(String[] args) throws IOException {
     var roomCrawlJob = new RoomCrawlJob();
-    var url = "https://t.me/yantai5899";
+    var url = "https://t.me/crypto_eyee";
     var room = new Room().setLink(url);
     var room1 = room;
     roomCrawlJob.fetch(room1);
@@ -260,13 +260,18 @@ public class RoomCrawlJob {
       var save = roomRepository.save(room);
       roomDocRepository.save(RoomDoc.fromEntity(save));
     }
-    boolean isBot =
+    boolean maybeBot =
         doc.select(
                 "body > div.tgme_page_wrap > div.tgme_body_wrap > div > div.tgme_page_action > a")
             .text()
             .contains("Send Message");
-    if (isBot) {
-      room.setType("BOT");
+    if (maybeBot) {
+      if (room.getLink().toLowerCase().endsWith("bot")) {
+        room.setType("BOT");
+      } else{
+        room.setType("USER");
+      } 
+      
       var save = roomRepository.save(room);
       roomDocRepository.save(RoomDoc.fromEntity(save));
     }
