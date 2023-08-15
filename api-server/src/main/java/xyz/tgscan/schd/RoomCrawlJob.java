@@ -58,8 +58,8 @@ public class RoomCrawlJob {
   private final ThreadLocal<String> proxyWrap = new ThreadLocal<>();
   private final ThreadPoolExecutor pool =
       new ThreadPoolExecutor(
-          100,
-          100,
+          150,
+          150,
           0L,
           TimeUnit.MILLISECONDS,
           new ArrayBlockingQueue<>(1024),
