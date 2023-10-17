@@ -57,8 +57,9 @@ def get_from_datetime():
 
 
 class LinkCrawler:
-    def __init__(self) -> None:
+    def __init__(self, expand_batch=None) -> None:
         self.client = TelegramClient(settings.SESSION_FILE, api_id, api_hash)
+        self.expand_batch = expand_batch
 
     async def run(self):
         logger.info("client start...")
@@ -67,12 +68,17 @@ class LinkCrawler:
 
         with DBSession() as db_sess:
             expand_batch = (
-                db_sess.query(Room)
-                .order_by(desc("expand_batch"))
-                .limit(1)
-                .one()
-                .expand_batch
+                (
+                    db_sess.query(Room)
+                    .order_by(desc("expand_batch"))
+                    .limit(1)
+                    .one()
+                    .expand_batch
+                )
+                if self.expand_batch is None
+                else self.expand_batch
             )
+            logger.info(f"expand batch {expand_batch}")
             while True:
                 rooms = (
                     db_sess.query(Room)
@@ -80,7 +86,7 @@ class LinkCrawler:
                         and_(
                             Room.status != "ERROR",
                             Room.expand_batch <= expand_batch,
-                        )
+                            )
                     )
                     .limit(100)
                     .all()
@@ -97,21 +103,27 @@ class LinkCrawler:
 
             for link in links:
                 if db_sess.query(Room).filter(Room.link == link).count() == 0:
-                    db_sess.add(Room(link=link, status="NEW",created_at=datetime.now()))
+                    db_sess.add(
+                        Room(link=link, status="NEW", created_at=datetime.now())
+                    )
             db_sess.commit()
             await sleep()
 
     async def crawl_links(self, room):
-        room_link = room.link
-        room_name = room_link.split("/")[-1]
-        res = set()
-        async for message in self.client.iter_messages(
-            room_name,
-            search="https://t.me/",
-            offset_date=room.last_expand_at,
-            limit=10000000,
-        ):
-            links = extract_telegram_links(message.text)
-            for link in links:
-                res.add(link.lower())
-        return res
+        try:
+            room_link = room.link
+            room_name = room_link.split("/")[-1]
+            res = set()
+            async for message in self.client.iter_messages(
+                    room_name,
+                    search="https://t.me/",
+                    offset_date=room.last_expand_at,
+                    limit=10000000,
+            ):
+                links = extract_telegram_links(message.text)
+                for link in links:
+                    res.add(link.lower())
+            return res
+        except Exception as e:
+            logger.error(f"crawl room {room.link} error {e}")
+            return set()
