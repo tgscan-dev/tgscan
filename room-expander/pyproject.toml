@@ -2,7 +2,7 @@
 name = "room-expander"
 version = "0.1.0"
 description = ""
-authors = ["tgscan.xyz@outlook.com"]
+authors = ["tgscan <tgscan.xyz@outlook.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]

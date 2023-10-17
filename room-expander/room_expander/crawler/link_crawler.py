@@ -67,35 +67,33 @@ class LinkCrawler:
         logger.info("client started")
 
         with DBSession() as db_sess:
-            expand_batch = (
-                (
+            if self.expand_batch is None:
+                self.expand_batch = (
                     db_sess.query(Room)
                     .order_by(desc("expand_batch"))
                     .limit(1)
                     .one()
                     .expand_batch
+                    + 1
                 )
-                if self.expand_batch is None
-                else self.expand_batch
-            )
-            logger.info(f"expand batch {expand_batch}")
+            logger.info(f"expand batch {self.expand_batch}")
             while True:
                 rooms = (
                     db_sess.query(Room)
                     .filter(
                         and_(
                             Room.status != "ERROR",
-                            Room.expand_batch <= expand_batch,
-                            )
+                            Room.expand_batch <= self.expand_batch,
+                        )
                     )
                     .limit(100)
                     .all()
                 )
-                await self.fetch_and_save_rooms(db_sess, expand_batch, rooms)
+                await self.fetch_and_save_rooms(db_sess, self.expand_batch, rooms)
 
     async def fetch_and_save_rooms(self, db_sess, expand_batch, rooms):
         for room in rooms:
-            room.expand_batch = expand_batch + 1
+            room.expand_batch = expand_batch
             room.last_expand_at = datetime.now()
             logger.info(f"expand room {room.link}")
             links = await self.crawl_links(room)
@@ -115,10 +113,10 @@ class LinkCrawler:
             room_name = room_link.split("/")[-1]
             res = set()
             async for message in self.client.iter_messages(
-                    room_name,
-                    search="https://t.me/",
-                    offset_date=room.last_expand_at,
-                    limit=10000000,
+                room_name,
+                search="https://t.me/",
+                offset_date=room.last_expand_at,
+                limit=10000000,
             ):
                 links = extract_telegram_links(message.text)
                 for link in links:
