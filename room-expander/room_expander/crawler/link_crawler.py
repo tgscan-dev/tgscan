@@ -83,7 +83,7 @@ class LinkCrawler:
                     .filter(
                         and_(
                             Room.status != "ERROR",
-                            Room.expand_batch <= self.expand_batch,
+                            Room.expand_batch < self.expand_batch,
                         )
                     )
                     .limit(100)
