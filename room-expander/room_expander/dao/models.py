@@ -24,6 +24,5 @@ class Room(Base):  # type: ignore
     extra = Column(Text)
     expand_batch = Column(Integer, default=0)
     web_crawl_batch = Column(Integer, default=0)
-    last_expand_at = Column(TIMESTAMP, default=func.current_timestamp())
     last_web_crawl_at = Column(TIMESTAMP, default=func.current_timestamp())
     created_at = Column(TIMESTAMP, default=func.current_timestamp())

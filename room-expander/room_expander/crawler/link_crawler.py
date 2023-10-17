@@ -19,8 +19,8 @@ api_hash = "b18441a1ff607e10a989891a5462e627"
 
 
 async def sleep():
-    logger.info("sleep 10s")
-    await asyncio.sleep(10)
+    logger.info("sleep 5s")
+    await asyncio.sleep(5)
 
 
 def build_rooms(links):
@@ -94,8 +94,6 @@ class LinkCrawler:
     async def fetch_and_save_rooms(self, db_sess, expand_batch, rooms):
         for room in rooms:
             room.expand_batch = expand_batch
-            room.last_expand_at = datetime.now()
-            logger.info(f"expand room {room.link}")
             links = await self.crawl_links(room)
             logger.info(f"room {room.link} has {len(links)} links, save to db")
 
@@ -115,12 +113,12 @@ class LinkCrawler:
             async for message in self.client.iter_messages(
                 room_name,
                 search="https://t.me/",
-                offset_date=room.last_expand_at,
                 limit=10000000,
             ):
                 links = extract_telegram_links(message.text)
                 for link in links:
                     res.add(link.lower())
+
             return res
         except Exception as e:
             logger.error(f"crawl room {room.link} error {e}")
