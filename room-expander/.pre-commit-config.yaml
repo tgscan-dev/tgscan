@@ -1,0 +1,78 @@
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.4.0
+    hooks:
+      - id: check-ast
+      - id: check-case-conflict
+      - id: check-docstring-first
+      - id: check-executables-have-shebangs
+      - id: check-json
+      - id: check-added-large-files
+      - id: pretty-format-json
+        args:
+          - "--autofix"
+          - "--indent=4"
+      - id: detect-private-key
+      - id: debug-statements
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+  - repo: https://github.com/myint/autoflake
+    rev: v2.2.0
+    hooks:
+      - id: autoflake
+        exclude: |
+          (?x)^(
+          .*/__init__.py|
+          .*/prompts.py
+          )$
+        args:
+          - --in-place
+          - --remove-all-unused-imports
+          - --expand-star-imports
+          - --remove-duplicate-keys
+          - --remove-unused-variables
+  - repo: https://github.com/pycqa/flake8
+    rev: 6.1.0
+    hooks:
+      - id: flake8
+        name: flake8
+        entry: flake8
+        language: system
+        types: [ python ]
+        exclude: |
+          (?x)^(
+          app/prompts/[^/]*/.*|
+          tests/.*
+          )$
+  - repo: https://github.com/pre-commit/mirrors-isort
+    rev: v5.10.1
+    hooks:
+      - id: isort
+        args: [ "--profile", "black" ]
+        exclude: '.*\.json'
+  - repo: https://github.com/compilerla/conventional-pre-commit
+    rev: v2.4.0
+    hooks:
+      - id: conventional-pre-commit
+        stages: [ commit-msg ]
+        args: [feat,fix,refactor,docs,test,chore,ci,build]
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v1.5.1
+    hooks:
+      - id: mypy
+        name: mypy
+        entry: mypy
+        args:
+          - --check-untyped-defs
+          - --ignore-missing-imports
+        language: system
+        types: [ python ]
+        exclude: |
+          (?x)^(
+          app/prompts/[^/]*/.*|
+          tests/.*
+          )$
+  - repo: https://github.com/psf/black
+    rev: 23.7.0
+    hooks:
+      - id: black
