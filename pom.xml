@@ -14,8 +14,6 @@
     <modules>
         <module>api-server</module>
         <module>web-app</module>
-        <module>msg-scraper</module>
-        <module>search-bot</module>
     </modules>
 
 </project>
