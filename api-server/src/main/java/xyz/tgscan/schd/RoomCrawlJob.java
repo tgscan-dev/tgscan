@@ -76,7 +76,7 @@ public class RoomCrawlJob {
 
   public static void main(String[] args) throws IOException {
     var roomCrawlJob = new RoomCrawlJob();
-    var url = "https://t.me/crypto_eyee";
+    var url = "https://t.me/sgnoogle_fan";
     var room = new Room().setLink(url);
     var room1 = room;
     roomCrawlJob.fetch(room1);
@@ -243,7 +243,7 @@ public class RoomCrawlJob {
         });
     boolean isChannel = statiscs.contains("subscriber");
     if (isChannel) {
-      String subscribers = statiscs.replaceAll("subscriber", "").replaceAll(" ", "");
+      String subscribers = statiscs.replaceAll("subscribers", "").replaceAll("subscriber", "").replaceAll(" ", "");
       room.setType("CHANNEL");
       if (subscribers.equals("no")) {
         subscribers = "0";
