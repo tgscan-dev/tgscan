@@ -22,8 +22,8 @@ public class Message {
   private long offset;
 
   @Basic
-  @Column(name = "chat_id")
-  private long chatId;
+  @Column(name = "username")
+  private String username;
 
   @Basic
   @Column(name = "sender_id")

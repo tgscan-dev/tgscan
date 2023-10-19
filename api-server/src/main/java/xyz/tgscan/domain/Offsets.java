@@ -17,11 +17,12 @@ import java.util.Objects;
 @RequiredArgsConstructor
 @Accessors(chain = true)
 @Entity
+@Table(name = "spy_offsets")
 public class Offsets {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Id
-  @Column(name = "chat_id")
-  private Long chatId;
+  @Column(name = "username")
+  private String username;
 
   @Basic
   @Column(name = "last_offset")
@@ -45,7 +46,7 @@ public class Offsets {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
     Offsets offsets = (Offsets) o;
-    return chatId == offsets.chatId
+    return username == offsets.username
         && lastOffset == offsets.lastOffset
         && Objects.equals(crawlLink, offsets.crawlLink)
         && Objects.equals(roomName, offsets.roomName)
@@ -54,6 +55,6 @@ public class Offsets {
 
   @Override
   public int hashCode() {
-    return Objects.hash(chatId, lastOffset, crawlLink, roomName, link);
+    return Objects.hash(username, lastOffset, crawlLink, roomName, link);
   }
 }

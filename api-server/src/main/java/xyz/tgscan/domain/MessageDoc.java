@@ -40,7 +40,7 @@ public class MessageDoc {
   private String content;
   private String phraseContent;
   private String type;
-  private Long chatId;
+  private String username;
   private Long offset;
   private String title;
   private String phraseTitle;
@@ -68,7 +68,7 @@ public class MessageDoc {
     messageDoc.setContent(msg);
     messageDoc.setPhraseContent(msg);
     messageDoc.setType(TgRoomTypeParamEnum.MESSAGE.name());
-    messageDoc.setChatId(messages.getChatId());
+    messageDoc.setUsername(messages.getUsername());
     messageDoc.setOffset(messages.getOffset());
     messageDoc.setSendTime(messages.getSendTime());
     return messageDoc;

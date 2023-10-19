@@ -76,7 +76,7 @@ public class RoomCrawlJob {
 
   public static void main(String[] args) throws IOException {
     var roomCrawlJob = new RoomCrawlJob();
-    var url = "https://t.me/sgnoogle_fan";
+    var url = "https://t.me/joeytianbo";
     var room = new Room().setLink(url);
     var room1 = room;
     roomCrawlJob.fetch(room1);

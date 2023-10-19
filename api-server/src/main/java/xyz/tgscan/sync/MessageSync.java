@@ -56,12 +56,12 @@ public abstract class MessageSync extends AbstractSync {
     var chatIds4links =
         roomLinks.stream()
             .filter(Offsets::getCrawlLink)
-            .map(Offsets::getChatId)
+            .map(Offsets::getUsername)
             .collect(Collectors.toSet());
 
     saveRoom(docs, chatIds4links);
 
-    var messageDocs = docs.stream().filter(x -> !chatIds4links.contains(x.getChatId())).toList();
+    var messageDocs = docs.stream().filter(x -> !chatIds4links.contains(x.getUsername())).toList();
 
     save2es(messageDocs, messageIdx);
   }
@@ -82,7 +82,7 @@ public abstract class MessageSync extends AbstractSync {
                                             y1.index(
                                                 z ->
                                                     z.index(messageIdx)
-                                                        .id(x1.getChatId() + "#" + x1.getOffset())
+                                                        .id(x1.getUsername() + "#" + x1.getOffset())
                                                         .document(x1))))
                             .toList())
                     .refresh(Refresh.True));
@@ -94,11 +94,11 @@ public abstract class MessageSync extends AbstractSync {
     }
   }
 
-  private void saveRoom(List<MessageDoc> docs, Set<Long> chatIds4links) {
+  private void saveRoom(List<MessageDoc> docs, Set<String> chatIds4links) {
     if (docs.isEmpty()) {
       return;
     }
-    var linksDocs = docs.stream().filter(x -> chatIds4links.contains(x.getChatId())).toList();
+    var linksDocs = docs.stream().filter(x -> chatIds4links.contains(x.getUsername())).toList();
     var links =
         linksDocs.stream()
             .flatMap(x -> parseRoomLinks(x.getContent()).stream())
