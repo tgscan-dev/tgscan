@@ -17,26 +17,26 @@ function typeBadge(type) {
     }
 }
 
-function chatId2link(chatId) {
+function chatId2link(username) {
     let item = JSON.parse(localStorage.getItem('roomLinks'));
     let map = item.reduce((acc, item) => {
-        if (item.chatId && item.link) {
-            acc[item.chatId] = item.link;
+        if (item.username && item.link) {
+            acc[item.username] = item.link;
         }
         return acc;
     }, {})
-    return map[chatId];
+    return map[username];
 }
 
-function chatId2name(chatId) {
+function chatId2name(username) {
     let item = JSON.parse(localStorage.getItem('roomLinks'));
     let map = item.reduce((acc, item) => {
-        if (item.chatId && item.roomName) {
-            acc[item.chatId] = item.roomName;
+        if (item.username && item.roomName) {
+            acc[item.username] = item.roomName;
         }
         return acc;
     }, {})
-    return map[chatId];
+    return map[username];
 }
 
 function Resources({items, selected}) {
@@ -49,7 +49,7 @@ function Resources({items, selected}) {
             const {id, highlighting, desc, link, type, memberCnt, title} = item;
             if (type === 'MESSAGE') {
                 //chat
-                const {chatId, offset} = item;
+                const {username, offset} = item;
                 const {title, desc} = highlighting;
                 const urls = desc.match(/(https?:\/\/[^\s]+)/g);
 
@@ -59,12 +59,12 @@ function Resources({items, selected}) {
                             // media={media}
                             // accessibilityLabel={`View details for ${name}`}
                         >
-                            <a href={chatId2link(chatId) + "/" + offset} target={"_blank"} className={"title"}>
+                            <a href={chatId2link(username) + "/" + offset} target={"_blank"} className={"title"}>
                                     <span className={"icon"}>
                                         {typeBadge(type)}
                                     </span>
                                 <span className={"title"}
-                                      dangerouslySetInnerHTML={{__html: chatId2name(chatId)}}></span>
+                                      dangerouslySetInnerHTML={{__html: chatId2name(username)}}></span>
                             </a>
                             {/*<div className={'tags'}>*/}
                             {/*    <Badge status="">*/}

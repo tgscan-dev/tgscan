@@ -25,7 +25,7 @@ public class MessageDocDTO {
   private List<String> tags;
   private String type;
 
-  private Integer chatId;
+  private String username;
   private Date sendTime;
   private MessageDocHighlightingDTO highlighting;
 
@@ -36,7 +36,7 @@ public class MessageDocDTO {
     tgRoomDocDTO.setOffset((Integer) tgRoomDoc.get("offset"));
     tgRoomDocDTO.setType((String) tgRoomDoc.get("type"));
     tgRoomDocDTO.setTags((List<String>) tgRoomDoc.get("tags"));
-    tgRoomDocDTO.setChatId((Integer) tgRoomDoc.get("chatId"));
+    tgRoomDocDTO.setUsername(tgRoomDoc.get("username").toString());
     var create = (Long) tgRoomDoc.get("sendTime");
     tgRoomDocDTO.setSendTime(create == null ? null : new Date(create));
 
