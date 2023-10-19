@@ -248,17 +248,28 @@ public class RoomCrawlJob {
       if (subscribers.equals("no")) {
         subscribers = "0";
       }
-      room.setMemberCnt(Integer.valueOf(subscribers));
-      var save = roomRepository.save(room);
-      roomDocRepository.save(RoomDoc.fromEntity(save));
+      try {
+        room.setMemberCnt(Integer.valueOf(subscribers));
+        var save = roomRepository.save(room);
+        roomDocRepository.save(RoomDoc.fromEntity(save));
+      } catch (NumberFormatException e) {
+        log.info("parse subscriber cnt err, room:{}, err:{}", JSON.toJSONString(room), e.getMessage());
+      }
     }
     boolean isGroup = statiscs.contains("member");
     if (isGroup) {
       String cnt = statiscs.split("member")[0].replaceAll(" ", "");
-      room.setMemberCnt(Integer.valueOf(cnt));
-      room.setType("GROUP");
-      var save = roomRepository.save(room);
-      roomDocRepository.save(RoomDoc.fromEntity(save));
+      if (cnt.equals("no")) {
+        cnt = "0";
+      }
+      try {
+        room.setMemberCnt(Integer.valueOf(cnt));
+        room.setType("GROUP");
+        var save = roomRepository.save(room);
+        roomDocRepository.save(RoomDoc.fromEntity(save));
+      } catch (NumberFormatException e) {
+        log.info("parse member cnt err, room:{}, err:{}", JSON.toJSONString(room), e.getMessage());
+      }
     }
     boolean maybeBot =
         doc.select(
