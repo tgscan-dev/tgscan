@@ -65,7 +65,17 @@ function Resources({items, selected}) {
         let url = `/items?kw=${kw}&tags=${tag}&p=${p - 1}&t=${t}&category=${category}&lang=${lang}`;
         navigate(url);
     }
-
+    function formatNumber(number) {
+        if (number >= 1000 && number < 1000000) {
+            return (number / 1000).toFixed(1) + 'K';
+        } else if (number >= 1000000 && number < 1000000000) {
+            return (number / 1000000).toFixed(1) + 'M';
+        } else if (number >= 1000000000) {
+            return (number / 1000000000).toFixed(1) + 'B';
+        } else {
+            return number.toString();
+        }
+    }
     function handleCategoryClick(event) {
         event.preventDefault();
         event.stopPropagation();
@@ -173,7 +183,7 @@ function Resources({items, selected}) {
                                     (type === 'BOT' || R.isNil(memberCnt)) ? null :
                                         <div >
                                             Members: <em></em>
-                                            <span className={'bold'}>{memberCnt}</span>
+                                            <span className={'bold'}>{formatNumber(memberCnt)}</span>
                                         </div>
                                 }
                                 <div  url="#">
