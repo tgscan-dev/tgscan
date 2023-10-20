@@ -14,7 +14,6 @@ function Tab({items, total, selected, setSelected}) {
     const useQuery = () => new URLSearchParams(location.search);
     const query = useQuery();
 
-
     const handleTabChange = useCallback(
         (selectedTabIndex) => {
             setSelected(selectedTabIndex);
@@ -24,13 +23,14 @@ function Tab({items, total, selected, setSelected}) {
             }
             const kw = user.kw;
             user.loading = true;
-            let category = query.get('category') ||'';
-            let tags = query.get('tags') ||'';
-            let lang = query.get('lang') ||'';
+            let tags = query.get("tags");
+            let category = query.get("category");
+            let lang = query.get("lang");
 
+            console.log(category)
             navigate(`/items?kw=${kw}&p=${p}&t=${tabs[selectedTabIndex].id.toUpperCase()}&tags=${tags}&category=${category}&lang=${lang}`);
         },
-        [],
+        [query.get("tags"), query.get("category"), query.get("lang")],
     );
 
     // useEffect(() => {

@@ -70,7 +70,7 @@ const Items = () => {
         let tags = query.get("tags");
         let category = query.get("category");
         let lang = query.get("lang");
-        debounceSearch(kw, category, tags,lang, page, type).then((res) => {
+        debounceSearch(kw, category, tags, lang, page, type).then((res) => {
             if (!res.doc) {
                 return
             }
