@@ -28,8 +28,11 @@ function PaginationCmpt({total}) {
                     t = t ? t : "";
                     user.loading = true;
 
-                    navigate(`${pathname}?kw=${kw}&p=${p - 1}&t=${t}`);
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                    let tags = query.get("tags");
+                    let category = query.get("category");
+                    let lang = query.get("lang");
+                    navigate(`${pathname}?kw=${kw}&p=${p - 1}&t=${t}&tags=${tags}&category=${category}&lang=${lang}`);
+                    window.scrollTo({top: 0, behavior: 'smooth'});
 
                 }}
                 hasNext={query.get("p") < total}
@@ -43,9 +46,11 @@ function PaginationCmpt({total}) {
                     t = t ? t : "ALL";
                     let kw = query.get("kw");
                     user.loading = true;
-
-                    navigate(`${pathname}?kw=${kw}&p=${p + 1}&t=${t}`);
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                    let tags = query.get("tags");
+                    let category = query.get("category");
+                    let lang = query.get("lang");
+                    navigate(`${pathname}?kw=${kw}&p=${p + 1}&t=${t}&tags=${tags}&category=${category}&lang=${lang}`);
+                    window.scrollTo({top: 0, behavior: 'smooth'});
 
                 }}
             />

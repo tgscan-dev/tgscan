@@ -10,6 +10,7 @@ import PaginationCmpt from "./PaginationCmpt";
 import {UserContext} from "./App";
 import {toast, ToastContainer} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import RemovableTagExample from "./RemovableTagExample";
 
 
 function type2selected(type) {
@@ -92,7 +93,7 @@ const Items = () => {
             });
             user.loading = false;
         })
-    }, [query.get("kw"), query.get("p"), query.get("t"), query.get("tags"), query.get("category")]);
+    }, [query.get("kw"), query.get("p"), query.get("t"), query.get("tags"), query.get("category"),query.get("lang")]);
 
     return (
         <div className="items">
@@ -113,6 +114,7 @@ const Items = () => {
                 <Tab items={items} total={total} selected={selected} setSelected={setSelected}></Tab>
             </div>
             <Divider/>
+            <RemovableTagExample></RemovableTagExample>
             <div className="results">
                 {user.loading && <div id={"loading"}><Spinner accessibilityLabel="Spinner" size="large"/></div>}
                 {!user.loading && <div>

@@ -55,6 +55,13 @@ body {
     cursor: text;
 }
 
+.filters{
+    padding-left: 190px;
+    padding-top: 20px;
+}
+.filters> span{
+    margin-right: 5px;
+}
 .search-box > .img {
     display: flex;
     align-items: center;
@@ -110,7 +117,7 @@ body {
 }
 
 .items .results {
-    padding: 5px 30px 3px 170px;
+    padding: 0px 30px 3px 170px;
     width: 900px;
 }
 
@@ -131,7 +138,7 @@ body {
 }
 
 .results .resources {
-    margin-top: 25px;
+    margin-top: 15px;
 }
 
 .pagination {
