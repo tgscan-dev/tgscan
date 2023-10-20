@@ -58,7 +58,11 @@ function Resources({items, selected}) {
         let kw = query.get("kw");
         let category = query.get('category') ||'';
         let lang = query.get('lang') ||'';
-        let url = `/items?kw=${kw}&tags=${tag}&category=${category}&lang=${lang}`;
+        let p = query.get("p") || "";
+        p = p ? parseInt(p) : 2;
+        p = p > 2 ? p : 2;
+        let t = query.get("t")||'';
+        let url = `/items?kw=${kw}&tags=${tag}&p=${p - 1}&t=${t}&category=${category}&lang=${lang}`;
         navigate(url);
     }
 
@@ -69,7 +73,12 @@ function Resources({items, selected}) {
         let kw = query.get("kw");
         let tag = query.get('tags') ||'';
         let lang = query.get('lang') ||'';
-        let url = `/items?kw=${kw}&tags=${tag}&category=${category}&lang=${lang}`;
+
+        let p = query.get("p") || "";
+        p = p ? parseInt(p) : 2;
+        p = p > 2 ? p : 2;
+        let t = query.get("t") ||'';
+        let url = `/items?kw=${kw}&tags=${tag}&p=${p - 1}&t=${t}&category=${category}&lang=${lang}`;
         navigate(url);
     }
 
@@ -80,7 +89,11 @@ function Resources({items, selected}) {
         let kw = query.get("kw");
         let tag = query.get('tags') ||'';
         let category = query.get('category') ||'';
-        let url = `/items?kw=${kw}&tags=${tag}&category=${category}&lang=${lang}`;
+        let p = query.get("p");
+        p = p ? parseInt(p) : 2;
+        p = p > 2 ? p : 2;
+        let t = query.get("t");
+        let url = `/items?kw=${kw}&tags=${tag}&p=${p - 1}&t=${t}&category=${category}&lang=${lang}`;
         navigate(url);
     }
     let category0 = query.get("category");

@@ -23,11 +23,9 @@ function Tab({items, total, selected, setSelected}) {
             }
             const kw = user.kw;
             user.loading = true;
-            let tags = query.get("tags");
-            let category = query.get("category");
-            let lang = query.get("lang");
-
-            console.log(category)
+            let tags = query.get("tags") || ""
+            let category = query.get("category") || "";
+            let lang = query.get("lang") || "";
             navigate(`/items?kw=${kw}&p=${p}&t=${tabs[selectedTabIndex].id.toUpperCase()}&tags=${tags}&category=${category}&lang=${lang}`);
         },
         [query.get("tags"), query.get("category"), query.get("lang")],
