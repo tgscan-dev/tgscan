@@ -24,8 +24,11 @@ function Tab({items, total, selected, setSelected}) {
             }
             const kw = user.kw;
             user.loading = true;
+            let category = query.get('category') ||'';
+            let tags = query.get('tags') ||'';
+            let lang = query.get('lang') ||'';
 
-            navigate(`/items?kw=${kw}&p=${p}&t=${tabs[selectedTabIndex].id.toUpperCase()}`);
+            navigate(`/items?kw=${kw}&p=${p}&t=${tabs[selectedTabIndex].id.toUpperCase()}&tags=${tags}&category=${category}&lang=${lang}`);
         },
         [],
     );
