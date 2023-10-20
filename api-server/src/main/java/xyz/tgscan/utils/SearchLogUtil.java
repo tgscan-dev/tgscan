@@ -2,11 +2,13 @@ package xyz.tgscan.utils;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Set;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -29,9 +31,10 @@ public class SearchLogUtil implements CommandLineRunner {
     return Pattern.matches(regex, input);
   }
 
-  public void log(String kw, String t, Integer p, String ip) {
+  public void log(String kw, String t, Set<String> tags, String lang, String name, Integer p, String ip) {
     var searchAt = new Timestamp(System.currentTimeMillis());
-    var log = new SearchLog().setKw(kw).setT(t).setP(p).setIp(ip).setSearchAt(searchAt);
+    var log = new SearchLog().setKw(kw).setT(t).setP(p).setIp(ip).setSearchAt(searchAt).setTags(StringUtils.join(tags, ",")).setCategory(name
+    ).setLang(lang);
     q.offer(log);
   }
 

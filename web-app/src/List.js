@@ -1,8 +1,9 @@
 import {Badge, ResourceItem, ResourceList, Tag} from '@shopify/polaris';
-import React from 'react';
+import React, {useContext} from 'react';
 import {getImage} from "./utils/api";
 import * as R from "ramda";
-import {useNavigate} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
+import {UserContext} from "./App";
 
 
 function typeBadge(type) {
@@ -45,16 +46,46 @@ function chatId2name(username) {
 
 function Resources({items, selected}) {
     const navigate = useNavigate();
+    const useQuery = () => new URLSearchParams(useLocation().search);
+    const query = useQuery();
+
+
 
     function handleTagClick(event) {
         event.preventDefault();
         event.stopPropagation();
-        const tag = event.target.innerText;
-        const search = tag;
-        navigate(`/items?kw=${search}`);
-
+        const tag = event.target.innerText.substring(1);
+        let kw = query.get("kw");
+        let category = query.get('category') ||'';
+        let lang = query.get('lang') ||'';
+        let url = `/items?kw=${kw}&tags=${tag}&category=${category}&lang=${lang}`;
+        navigate(url);
     }
 
+    function handleCategoryClick(event) {
+        event.preventDefault();
+        event.stopPropagation();
+        const category = event.target.innerText;
+        let kw = query.get("kw");
+        let tag = query.get('tags') ||'';
+        let lang = query.get('lang') ||'';
+        let url = `/items?kw=${kw}&tags=${tag}&category=${category}&lang=${lang}`;
+        navigate(url);
+    }
+
+    function handleLangClick(event){
+        event.preventDefault();
+        event.stopPropagation();
+        const lang = event.target.innerText;
+        let kw = query.get("kw");
+        let tag = query.get('tags') ||'';
+        let category = query.get('category') ||'';
+        let url = `/items?kw=${kw}&tags=${tag}&category=${category}&lang=${lang}`;
+        navigate(url);
+    }
+    let category0 = query.get("category");
+    let tags0 = query.get("tags");
+    let lang0 = query.get("lang");
     return (<ResourceList
         resourceName={{singular: 'customer', plural: 'customers'}}
         items={items}
@@ -112,14 +143,14 @@ function Resources({items, selected}) {
                             <div className={'tags'}>
                                 <div  url="#">
                                     Language:
-                                    <span className={'tag-item'}
-                                          > <em/>
+                                    <span className={'tag-item'} style={{'color':`${lang===lang0?'red':''}`}} onClick={handleLangClick}>
+                                           <em/>
                                     {lang}
                                 </span>
                                     </div>
                                 <div  url="#">
                                     Category: <em/>
-                                    <span className={'tag-item'}
+                                    <span className={'tag-item'} style={{'color':`${category0===capitalizeFirstLetter(category)?'red':''}`}}  onClick={handleCategoryClick}
                                     >
                                     {/*    upcase first of category*/}
                                     {capitalizeFirstLetter(category)}
@@ -133,7 +164,7 @@ function Resources({items, selected}) {
                                         </div>
                                 }
                                 <div  url="#">
-                                    Tags: <em/>{tags.map(tag0 => <span className={'tag-item'} onClick={handleTagClick}>#{tag0}</span>)}
+                                    Tags: <em/>{tags.map(tag0 => <span className={`tag-item`} style={{'color':`${tag0===tags0?'red':''}`}} onClick={handleTagClick}>#{tag0}</span>)}
                                 </div>
 
 

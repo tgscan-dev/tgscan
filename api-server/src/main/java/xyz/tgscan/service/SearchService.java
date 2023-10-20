@@ -13,14 +13,13 @@ import co.elastic.clients.elasticsearch.core.search.SourceConfig;
 import co.elastic.clients.elasticsearch.core.search.SourceFilter;
 import co.elastic.clients.json.JsonData;
 import co.elastic.clients.util.ObjectBuilder;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Optional;
+
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import lombok.SneakyThrows;
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import xyz.tgscan.dto.MessageDocDTO;
@@ -65,19 +64,24 @@ public class SearchService {
                                 t2 ->
                                         t2.field(IdxConstant.ROOM_CATEGORY)
                                                 .terms(
-                                                        t3 -> {
-                                                            var tagsVals =
-                                                                    query.getTags().stream()
-                                                                            .map(z -> new FieldValue.Builder().stringValue(z).build())
-                                                                            .collect(Collectors.toList());
-                                                            return t3.value(tagsVals);
-                                                        })));
+                                                        t3 -> t3.value(List.of(new FieldValue.Builder().stringValue(query.getCategory()).build())))));
+    }
+
+
+    private static Function<Query.Builder, ObjectBuilder<Query>> buildLangFilter(QueryDTO query) {
+        return t1 ->
+                t1.terms(
+                        TermsQuery.of(
+                                t2 ->
+                                        t2.field(IdxConstant.ROOM_LANG)
+                                                .terms(
+                                                        t3 -> t3.value(List.of(new FieldValue.Builder().stringValue(query.getLang()).build())))));
     }
 
   @SneakyThrows
-  public SearchRespDTO recall(String kw, Integer page, TgRoomTypeParamEnum type) {
+  public SearchRespDTO recall(String kw, Set<String> tags, String category, String lang, Integer page, TgRoomTypeParamEnum type) {
 
-    var query = queryProcessor.process(kw);
+    var query = queryProcessor.process(kw,tags,category,lang);
 
     var esQuery = buildESQuery(type, query);
     var highLight = buildHighLight();
@@ -342,14 +346,18 @@ public class SearchService {
                                                                       t1.field(
                                                                               IdxConstant.ROOM_TYPE)
                                                                           .value(type.name())));
-                                                  if (!query.getTags().isEmpty()) {
-
-                                                    b2.must(
-                                                        m1 ->
-                                                            m1.bool(
-                                                                b3 -> b3.should(
-                                                                        buildTagFilter0(query)).should(buildCategoryFilter(query))));
-                                                  }
+                                                    if (ObjectUtils.isNotEmpty(query.getTags())) {
+                                                        var tagFilter = buildTagFilter0(query);
+                                                        typeFilter.must(tagFilter);
+                                                    }
+                                                    if (ObjectUtils.isNotEmpty(query.getCategory())) {
+                                                        var categoryFilter = buildCategoryFilter(query);
+                                                        typeFilter.must(categoryFilter);
+                                                    }
+                                                    if (ObjectUtils.isNotEmpty(query.getLang())) {
+                                                        var langFilter = buildLangFilter(query);
+                                                        typeFilter.must(langFilter);
+                                                    }
                                                   return typeFilter;
                                                 }));
                                   }
@@ -361,6 +369,18 @@ public class SearchService {
                                                 termByTitle.forEach(y1::should);
                                                 termByDesc0.forEach(y1::should);
                                                 termByDesc.forEach(y1::should);
+                                                if (ObjectUtils.isNotEmpty(query.getTags())) {
+                                                  var tagFilter = buildTagFilter0(query);
+                                                  y1.must(tagFilter);
+                                                }
+                                                if (ObjectUtils.isNotEmpty(query.getCategory())) {
+                                                  var categoryFilter = buildCategoryFilter(query);
+                                                  y1.must(categoryFilter);
+                                                }
+                                                if (ObjectUtils.isNotEmpty(query.getLang())) {
+                                                    var langFilter = buildLangFilter(query);
+                                                    y1.must(langFilter);
+                                                }
                                                 return y1.should(matchPhraseByName)
                                                     .should(matchPhraseByDesc)
                                                     .should(matchPhraseByStandardName)

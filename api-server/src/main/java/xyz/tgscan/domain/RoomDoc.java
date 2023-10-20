@@ -56,7 +56,10 @@ public class RoomDoc {
     roomDoc.setType(room.getType());
     roomDoc.setStatus(room.getStatus());
     roomDoc.setSendTime(new Date(0));
-    var newLang = Arrays.stream(Optional.ofNullable(room.getLang()).orElse("").split(",")).map(String::trim).distinct().collect(Collectors.toList());
+    var newLang = Arrays.stream(Optional.ofNullable(room.getLang())
+            .orElse("")
+            .split(",")).map(String::trim)
+            .map(String::toLowerCase).distinct().collect(Collectors.toList());
     roomDoc.setLang(newLang);
     var tags = Optional.ofNullable(room.getTags()).orElse("").split(",");
     var newTags = Arrays.stream(tags).map(String::trim).map(String::toLowerCase).distinct().collect(Collectors.toList());

@@ -2,12 +2,15 @@ package xyz.tgscan.domain;
 
 import jakarta.persistence.*;
 import java.sql.Timestamp;
+import java.util.Set;
+
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Slf4j
 @Getter
@@ -42,4 +45,18 @@ public class SearchLog {
   @Basic
   @Column(name = "ip")
   private String ip;
+
+  @Basic
+  @Column(name = "tags")
+  private String tags;
+
+  @Basic
+  @Column(name = "category")
+  private String category;
+
+
+
+  @Basic
+  @Column(name = "lang")
+  private String lang;
 }

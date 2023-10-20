@@ -11,6 +11,8 @@ import lombok.experimental.Accessors;
 public class QueryDTO {
   private String kw;
   private Set<String> tags;
+  private String category;
+  private String lang;
   private String correct;
   private Map<String, Float> termWeight;
   private String tokens;

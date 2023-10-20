@@ -56,12 +56,17 @@ public class SearchController {
 
   @GetMapping("query")
   public SearchRespDTO query(
-      @RequestParam("kw") String kw,
+          @RequestParam("kw") String kw,
+          @RequestParam(value = "tags",required = false) String[] tags,
+          @RequestParam(value = "category",required = false,defaultValue = "") String category,
+          @RequestParam(value = "lang",required = false,defaultValue = "") String lang,
       @RequestParam(value = "p", required = false, defaultValue = "1") Integer page,
       @RequestParam(value = "t", required = false, defaultValue = "ALL") TgRoomTypeParamEnum type) {
-
-    searchLogUtil.log(kw, type.name(), page, getClientIp());
-    return searchService.recall(kw, page, type);
+    var realTags =
+        new HashSet<>(
+            Optional.ofNullable(tags).map(Arrays::asList).orElse(Collections.emptyList()));
+    searchLogUtil.log(kw, category,realTags,lang, type.name(), page, getClientIp());
+    return searchService.recall(kw,realTags,category,lang, page, type);
   }
 
   @SneakyThrows

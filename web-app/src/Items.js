@@ -67,7 +67,10 @@ const Items = () => {
         setSelected(type2selected(type));
 
 
-        debounceSearch(kw, page, type).then((res) => {
+        let tags = query.get("tags");
+        let category = query.get("category");
+        let lang = query.get("lang");
+        debounceSearch(kw, category, tags,lang, page, type).then((res) => {
             if (!res.doc) {
                 return
             }
@@ -89,7 +92,7 @@ const Items = () => {
             });
             user.loading = false;
         })
-    }, [query.get("kw"), query.get("p"), query.get("t")]);
+    }, [query.get("kw"), query.get("p"), query.get("t"), query.get("tags"), query.get("category")]);
 
     return (
         <div className="items">

@@ -3,7 +3,6 @@ package xyz.tgscan.service;
 import com.hankcs.hanlp.HanLP;
 import com.hankcs.hanlp.corpus.tag.Nature;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -139,27 +138,7 @@ public class QueryProcessor {
     natureWeight.put(Nature.nx, 1f);
   }
 
-  private Set<String> parseTags(String kw){
-    var tags = new HashSet<String>();
-    var split = kw.split(" ");
-    for (String s : split) {
-      if (s.startsWith("#")) {
-        tags.add(s.substring(1).toLowerCase());
-      }
-    }
-    return tags;
-  }
-  private String removeTags(String kw){
-    var split = kw.split(" ");
-    var sb = new StringBuilder();
-    for (String s : split) {
-      if (!s.startsWith("#")) {
-        sb.append(s).append(" ");
-      }
-    }
-    return sb.toString().trim();
-  }
-  public QueryDTO process(String kw) {
+   public QueryDTO process(String kw, Set<String> tags, String category, String lang) {
     if (kw.length() > 38) {
       kw = kw.substring(0, 38);
     }
@@ -178,8 +157,9 @@ public class QueryProcessor {
             .collect(
                 Collectors.toMap(
                     Pair::getLeft, Pair::getRight, (a, b) -> (float) (a + Math.log1p(b))));
-    var realKw = removeTags(kw);
-    var tags = parseTags(kw);
-    return new QueryDTO().setKw(realKw).setTags(tags).setTokens(tokens).setTermWeight(termWeight);
+    return new QueryDTO().setKw(kw).setTokens(tokens)
+            .setTermWeight(termWeight).setTags(tags.stream().map(String::toLowerCase).collect(Collectors.toSet()))
+            .setLang(lang.toLowerCase())
+            .setCategory(category.toLowerCase());
   }
 }

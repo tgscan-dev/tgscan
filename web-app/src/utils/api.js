@@ -15,9 +15,18 @@ export async function autocomplete(kw) {
 
 }
 
-export async function search(kw, page, type) {
+export async function search(kw, category, tags,lang, page, type) {
     if (!kw) {
         return {total: 0, doc: []}
+    }
+    if(R.isNil(category) || R.isEmpty(category)) {
+        category = '';
+    }
+    if(R.isNil(tags) || R.isEmpty(tags)) {
+        tags = '';
+    }
+    if (R.isNil(lang) || R.isEmpty(lang)) {
+        lang = '';
     }
     if (R.isNil(page) || page < 1) {
         page = 1;
@@ -25,7 +34,7 @@ export async function search(kw, page, type) {
     if (R.isNil(type) || R.isEmpty(type)) {
         type = '';
     }
-    const response = await fetch(`${BACKEND}/search/query?kw=${kw}&p=${page ? page : 1}&t=${type}`);
+    const response = await fetch(`${BACKEND}/search/query?kw=${kw}&p=${page ? page : 1}&t=${type}&tags=${tags}&category=${category}&lang=${lang}`);
     return response.json();
 }
 
