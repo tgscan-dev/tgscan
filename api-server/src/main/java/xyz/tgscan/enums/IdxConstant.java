@@ -18,4 +18,6 @@ public class IdxConstant {
   public static final String MESSAGE_TYPE = "type";
   public static final String MESSAGE_CONTENT = "content";
   public static final String MESSAGE_CONTENT_PHRASE = "phraseContent";
+  public static final String ROOM_TAGS = "tags";
+  public static final String ROOM_CATEGORY= "category";
 }

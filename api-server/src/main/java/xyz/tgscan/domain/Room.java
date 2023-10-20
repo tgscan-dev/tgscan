@@ -28,6 +28,9 @@ public class Room {
   @Column(name = "tags")
   private String tags;
   @Basic
+  @Column(name = "category")
+  private String category;
+  @Basic
   @Column(name = "name")
   private String name;
 

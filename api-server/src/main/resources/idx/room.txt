@@ -1,3 +1,4 @@
+
 PUT /room.1019
 {
   "settings": {
@@ -69,6 +70,15 @@ PUT /room.1019
         "type": "keyword"
       },
       "userName": {
+        "type": "keyword"
+      },
+      "tags": {
+        "type": "keyword"
+      },
+      "lang": {
+        "type": "keyword"
+      },
+      "category": {
         "type": "keyword"
       },
       "memberCnt": {

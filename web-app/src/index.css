@@ -173,9 +173,22 @@ body {
     top: -3px;
 }
 
-.resource-item .tags {
+.resource-item .tags{
     margin: 5px 0;
-    cursor: text !important;
+}
+.resource-item .tags span {
+    margin-right: 7px !important;
+}
+.Polaris-ResourceItem{
+    cursor: default!important;
+}
+.resource-item .tags .tag-item{
+    color: -webkit-link;
+    cursor: pointer;
+}
+
+.resource-item .tags>span:first-child {
+    cursor: default;
 }
 
 .resource-item .tags .icon {

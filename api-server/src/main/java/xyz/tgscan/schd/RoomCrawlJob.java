@@ -360,7 +360,7 @@ public class RoomCrawlJob {
               fetch(room);
               log.info("end fetch:{}", room.getLink());
             } catch (Throwable e) {
-              log.error("fetch err, room:{}, err:{}", JSON.toJSONString(room), e.getMessage());
+              log.debug("fetch err, room:{}, err:{}", JSON.toJSONString(room), e.getMessage());
               if (StringUtils.isNotEmpty(room.getName()) && room.getMemberCnt() > 0) {
                 log.warn("need check: " + JSON.toJSONString(room));
                 return;

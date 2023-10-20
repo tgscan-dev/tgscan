@@ -3,6 +3,7 @@ package xyz.tgscan.service;
 import static xyz.tgscan.enums.IdxConstant.MESSAGE_CONTENT_PHRASE;
 
 import co.elastic.clients.elasticsearch.ElasticsearchClient;
+import co.elastic.clients.elasticsearch._types.FieldValue;
 import co.elastic.clients.elasticsearch._types.query_dsl.*;
 import co.elastic.clients.elasticsearch.core.SearchRequest;
 import co.elastic.clients.elasticsearch.core.SearchResponse;
@@ -41,6 +42,37 @@ public class SearchService {
   public SearchService(ElasticsearchClient esClient) {
     this.esClient = esClient;
   }
+
+    private static Function<Query.Builder, ObjectBuilder<Query>> buildTagFilter0(QueryDTO query) {
+        return t1 ->
+                t1.terms(
+                        TermsQuery.of(
+                                t2 ->
+                                        t2.field(IdxConstant.ROOM_TAGS)
+                                                .terms(
+                                                        t3 -> {
+                                                            var tagsVals =
+                                                                    query.getTags().stream()
+                                                                            .map(z -> new FieldValue.Builder().stringValue(z).build())
+                                                                            .collect(Collectors.toList());
+                                                            return t3.value(tagsVals);
+                                                        })));
+    }
+    private static Function<Query.Builder, ObjectBuilder<Query>> buildCategoryFilter(QueryDTO query) {
+        return t1 ->
+                t1.terms(
+                        TermsQuery.of(
+                                t2 ->
+                                        t2.field(IdxConstant.ROOM_CATEGORY)
+                                                .terms(
+                                                        t3 -> {
+                                                            var tagsVals =
+                                                                    query.getTags().stream()
+                                                                            .map(z -> new FieldValue.Builder().stringValue(z).build())
+                                                                            .collect(Collectors.toList());
+                                                            return t3.value(tagsVals);
+                                                        })));
+    }
 
   @SneakyThrows
   public SearchRespDTO recall(String kw, Integer page, TgRoomTypeParamEnum type) {
@@ -300,10 +332,26 @@ public class SearchService {
                                   if (type != TgRoomTypeParamEnum.ALL) {
                                     b1.filter(
                                         f2 ->
-                                            f2.term(
-                                                t1 ->
-                                                    t1.field(IdxConstant.ROOM_TYPE)
-                                                        .value(type.name())));
+                                            f2.bool(
+                                                b2 -> {
+                                                  var typeFilter =
+                                                      b2.must(
+                                                          m1 ->
+                                                              m1.term(
+                                                                  t1 ->
+                                                                      t1.field(
+                                                                              IdxConstant.ROOM_TYPE)
+                                                                          .value(type.name())));
+                                                  if (!query.getTags().isEmpty()) {
+
+                                                    b2.must(
+                                                        m1 ->
+                                                            m1.bool(
+                                                                b3 -> b3.should(
+                                                                        buildTagFilter0(query)).should(buildCategoryFilter(query))));
+                                                  }
+                                                  return typeFilter;
+                                                }));
                                   }
                                   return b1.must(
                                       x1 ->

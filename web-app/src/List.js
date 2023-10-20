@@ -1,7 +1,8 @@
-import {Badge, ResourceItem, ResourceList} from '@shopify/polaris';
+import {Badge, ResourceItem, ResourceList, Tag} from '@shopify/polaris';
 import React from 'react';
 import {getImage} from "./utils/api";
 import * as R from "ramda";
+import {useNavigate} from "react-router-dom";
 
 
 function typeBadge(type) {
@@ -27,7 +28,10 @@ function chatId2link(username) {
     }, {})
     return map[username];
 }
-
+function capitalizeFirstLetter(string) {
+    if (!string) return string;
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}
 function chatId2name(username) {
     let item = JSON.parse(localStorage.getItem('roomLinks'));
     let map = item.reduce((acc, item) => {
@@ -40,13 +44,22 @@ function chatId2name(username) {
 }
 
 function Resources({items, selected}) {
+    const navigate = useNavigate();
 
+    function handleTagClick(event) {
+        event.preventDefault();
+        event.stopPropagation();
+        const tag = event.target.innerText;
+        const search = tag;
+        navigate(`/items?kw=${search}`);
+
+    }
 
     return (<ResourceList
         resourceName={{singular: 'customer', plural: 'customers'}}
         items={items}
         renderItem={(item) => {
-            const {id, highlighting, desc, link, type, memberCnt, title} = item;
+            const {id, highlighting, desc, link, type, memberCnt, title, lang, tags, category} = item;
             if (type === 'MESSAGE') {
                 //chat
                 const {username, offset} = item;
@@ -56,8 +69,6 @@ function Resources({items, selected}) {
                 return (<div className={"resource-item"}>
                         <ResourceItem
                             id={id}
-                            // media={media}
-                            // accessibilityLabel={`View details for ${name}`}
                         >
                             <a href={chatId2link(username) + "/" + offset} target={"_blank"} className={"title"}>
                                     <span className={"icon"}>
@@ -66,14 +77,7 @@ function Resources({items, selected}) {
                                 <span className={"title"}
                                       dangerouslySetInnerHTML={{__html: chatId2name(username)}}></span>
                             </a>
-                            {/*<div className={'tags'}>*/}
-                            {/*    <Badge status="">*/}
-                            {/*        /!*<img className={"icon"} src="/member_count.svg" alt=""/>*!/*/}
-                            {/*        <span className={'cnt'}>*/}
-                            {/*        {memberCnt} {memberCnt > 1 ? "MBRS" : "MBR"}*/}
-                            {/*    </span>*/}
-                            {/*    </Badge>*/}
-                            {/*</div>*/}
+
                             <div className={"highlight-body"} onClick={event => event.stopPropagation()}
                                  dangerouslySetInnerHTML={{__html: desc.replace(/\n/g, '<br>')}}></div>
 
@@ -106,17 +110,33 @@ function Resources({items, selected}) {
                                 <span className={"title"} dangerouslySetInnerHTML={{__html: name}}></span>
                             </a>
                             <div className={'tags'}>
+                                <div  url="#">
+                                    Language:
+                                    <span className={'tag-item'}
+                                          > <em/>
+                                    {lang}
+                                </span>
+                                    </div>
+                                <div  url="#">
+                                    Category: <em/>
+                                    <span className={'tag-item'}
+                                    >
+                                    {/*    upcase first of category*/}
+                                    {capitalizeFirstLetter(category)}
+                                    </span>
+                                </div>
                                 {
                                     (type === 'BOT' || R.isNil(memberCnt)) ? null :
-                                        <Badge status="">
-                                            {/*<img className={"icon"} src="/member_count.svg" alt=""/>*/}
-
-
-                                            <span className={'cnt'}>
-                                                {memberCnt} {memberCnt > 1 ? "MBRS" : "MBR"}
-                                            </span>
-                                        </Badge>
+                                        <div >
+                                            Members: <em></em>
+                                            <span className={'bold'}>{memberCnt}</span>
+                                        </div>
                                 }
+                                <div  url="#">
+                                    Tags: <em/>{tags.map(tag0 => <span className={'tag-item'} onClick={handleTagClick}>#{tag0}</span>)}
+                                </div>
+
+
                             </div>
                             <div className={"highlight-body"} onClick={event => event.stopPropagation()}
                                  dangerouslySetInnerHTML={{__html: jhiDesc}}></div>
