@@ -102,7 +102,7 @@ function Resources({items, selected}) {
         let p = query.get("p");
         p = p ? parseInt(p) : 2;
         p = p > 2 ? p : 2;
-        let t = query.get("t");
+        let t = query.get("t") || '';
         let url = `/items?kw=${kw}&tags=${tag}&p=${p - 1}&t=${t}&category=${category}&lang=${lang}`;
         navigate(url);
     }
@@ -168,7 +168,7 @@ function Resources({items, selected}) {
                                     Language:
                                     <span className={'tag-item'} style={{'color':`${lang===lang0?'red':''}`}} onClick={handleLangClick}>
                                            <em/>
-                                    {lang}
+                                    {capitalizeFirstLetter(lang)}
                                 </span>
                                     </div>
                                 <div  url="#">
