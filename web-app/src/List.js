@@ -165,19 +165,19 @@ function Resources({items, selected}) {
                             </a>
                             <div className={'tags'}>
                                 <div  url="#">
-                                    Language:
-                                    <span className={'tag-item'} style={{'color':`${lang===lang0?'red':''}`}} onClick={handleLangClick}>
+                                    Language: <em/>
+                                    {lang? <span className={'tag-item'} style={{'color':`${lang===lang0?'red':''}`}} onClick={handleLangClick}>
                                            <em/>
-                                    {capitalizeFirstLetter(lang)}
-                                </span>
+                                        {capitalizeFirstLetter(lang)}
+                                </span>:'Unknown'}
                                     </div>
                                 <div  url="#">
                                     Category: <em/>
-                                    <span className={'tag-item'} style={{'color':`${category0===capitalizeFirstLetter(category)?'red':''}`}}  onClick={handleCategoryClick}
+                                    {category?<span className={'tag-item'} style={{'color':`${category0===capitalizeFirstLetter(category)?'red':''}`}}  onClick={handleCategoryClick}
                                     >
                                     {/*    upcase first of category*/}
-                                    {capitalizeFirstLetter(category)}
-                                    </span>
+                                        {capitalizeFirstLetter(category)}
+                                    </span>:'Uncategorized'}
                                 </div>
                                 {
                                     (type === 'BOT' || R.isNil(memberCnt)) ? null :
